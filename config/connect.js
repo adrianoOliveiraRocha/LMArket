@@ -16,7 +16,7 @@ if(dbInfo != undefined) {
 } else {
   host = 'localhost';
   user = 'adriano';
-  password = '84556589We';
+  password = '453231';
   database = 'deliverynode';
 }
 // console.log(connect)

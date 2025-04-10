@@ -1,0 +1,3 @@
+1 - Do it multuser
+2 - Do Delivery point to whatsapp only
+3 - Run inside of w3s

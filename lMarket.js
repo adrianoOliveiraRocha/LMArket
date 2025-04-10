@@ -88,7 +88,7 @@ function useRemoteHost() {
     host: 'localhost',
     port: 3306,
     user: 'adriano',
-    password: '7854666555',
+    password: '453231',
     database: 'deliverynode',
     createDatabaseTable: true,
     endConnectionOnClose: true,
