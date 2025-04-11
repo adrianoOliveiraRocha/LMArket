@@ -1,1 +1,5 @@
+user of type 1: Admin
+user of type 0: Client
+user of type 2: delivery man
+
 playlist youtube => https://youtube.com/playlist?list=PLqQE1V2kzbwJgF-x4BcYLbWghx1T9RWxz&si=PTOVLhie0LG_kjxY
