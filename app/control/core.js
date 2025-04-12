@@ -1,12 +1,11 @@
-module.exports.home = (req, res) => {
-    
+function marketHome(req, res) {
   let categoryId = null, pageNumber = 1;
   if(req.query.categoryId) categoryId = req.query.categoryId;
-  if(req.query.page) pageNumber  = req.query.page; 
+  if(req.query.page) pageNumber  = req.query.page;
 
   const Pagination = require('./../../utils/Pagination');
   const pagination = new Pagination();
-  
+
   const fs = require('fs')
   var config = fs.readFileSync('app/public/json/config.json')
   let logoName = JSON.parse(config).logoName
@@ -62,10 +61,10 @@ module.exports.home = (req, res) => {
     });
   }
 
-  Promise.all([getCurrentCategory(), getCategpries(), getPage(), 
+  Promise.all([getCurrentCategory(), getCategpries(), getPage(),
     getTotalOfProducts(), getBanners()])
     .then(([currentCategory, categories, page, totalOfProducts, banners]) => {
-      res.render('core/index.ejs', { 
+      res.render('core/index.ejs', {
         logoName, companyPhone, categories, page, currentCategory, categoryId,
          pagination, page, totalOfProducts, pageNumber, user: req.session.user,
          banners
@@ -76,7 +75,14 @@ module.exports.home = (req, res) => {
         errorMessage: error
       })
     });
-    
+}
+
+module.exports.home = (req, res) => {
+  if(req.query.code) {
+    marketHome(req, res);
+  } else {
+    res.render('core/lp/index.ejs');
+  }
 }
 
 module.exports.about = (req, res) => {
@@ -106,11 +112,11 @@ module.exports.deliveryFee = (req, res) => {
     } else {
       res.render('core/delivery-fee.ejs', {
         user: req.session.user,
-        logoName, companyPhone, 
+        logoName, companyPhone,
         neighborhoods: result
       });
     }
-  });  
+  });
 }
 
 module.exports.contact = function(req, res) {
@@ -168,7 +174,7 @@ module.exports.productDetail = function(req, res) {
       });
     } else {
       res.render('core/product.ejs', {
-        product: result[0], 
+        product: result[0],
         companyPhone,
         user: req.session.user
       })
@@ -182,7 +188,7 @@ module.exports.showCart = (req, res) => {
   const fs = require('fs');
   var config = fs.readFileSync('app/public/json/config.json');
   let companyPhone = JSON.parse(config).companyPhone;
-  res.render('core/shoping-cart.ejs', 
+  res.render('core/shoping-cart.ejs',
   { products, companyPhone, user: req.session.user });
 }
 
@@ -191,14 +197,14 @@ module.exports.searchProduct = function(req, res) {
   var config = fs.readFileSync('app/public/json/config.json');
   let companyPhone = JSON.parse(config).companyPhone;
   const Product = require('./../models/Product');
-  
+
   Product.searchProduct(req.body.productName, function(error, result) {
     if(error) {
       res.render('core/error.ejs', {
         errorMessage: "Não foi possível realizar a pesquisa",
       })
     } else {
-      res.render('core/search-product.ejs', 
+      res.render('core/search-product.ejs',
         { companyPhone,  products: result, user: req.session.user });
     }
   });
@@ -206,7 +212,7 @@ module.exports.searchProduct = function(req, res) {
 }
 
 module.exports.getClientInfo = function(req, res) {
-  
+
   req.session.car = req.body;
   var user = null;
   var loged = false;
@@ -218,7 +224,7 @@ module.exports.getClientInfo = function(req, res) {
   const fs = require('fs');
   var config = fs.readFileSync('app/public/json/config.json');
   let companyPhone = JSON.parse(config).companyPhone;
-  res.render('core/get-client-info.ejs', 
+  res.render('core/get-client-info.ejs',
   { companyPhone, user, loged });
 
 }
@@ -235,11 +241,11 @@ module.exports.orderLogin = function(req, res) {
         if(error) {
           reject(error);
         } else {
-          Object.keys(result).length > 0 
+          Object.keys(result).length > 0
           ? resolve(result[0])
-          : reject("Usuário não encontrado");     
+          : reject("Usuário não encontrado");
         }
-      }); 
+      });
     });
   }
 
@@ -266,12 +272,12 @@ module.exports.orderLogin = function(req, res) {
       </button>
       `);
     });
-   
+
 }
 
 module.exports.sendOrder = function(req, res) {
   var deliveryInfo = req.body;
-    
+
   var address = {};
   if(!deliveryInfo.useMyAddress) {
     address.useMyAddress = true;
@@ -337,13 +343,13 @@ module.exports.sendMessage = function(req, res) {
   Message.sendMessage(data, function(error, result) {
     if(error) {
       res.render('core/error.ejs', {
-        errorMessage: "Não foi possível enviar a mensagem: " 
+        errorMessage: "Não foi possível enviar a mensagem: "
         +"${error}"
       });
     } else {
       res.render('core/message.ejs', {
         message: "Mensagem foi enviada. Sua opinião é muito importante "
-        +"para nós. Obrigado!" 
+        +"para nós. Obrigado!"
       });
     }
   });
@@ -353,5 +359,3 @@ module.exports.assetlinks = function(req, res) {
   var path = process.env.PWD + '/app/public/.well-known/assetlinks.json';
 	res.sendFile(path);
 }
-
-
