@@ -1,3 +1,9 @@
+To do list
+
+1 - Do it multuser
+2 - Do Delivery point to whatsapp only
+3 - Run inside of w3s
+
 user of type 1: Admin
 user of type 0: Client
 user of type 2: delivery man

@@ -1,5 +1,15 @@
+module.exports.home = (req, res) => {
+  if(req.query.code) {
+    marketHome(req, res);
+  } else {
+    res.render('core/lp/index.ejs');
+  }
+}
+
 function marketHome(req, res) {
+  const userId = req.query.code;
   let categoryId = null, pageNumber = 1;
+  
   if(req.query.categoryId) categoryId = req.query.categoryId;
   if(req.query.page) pageNumber  = req.query.page;
 
@@ -7,7 +17,7 @@ function marketHome(req, res) {
   const pagination = new Pagination();
 
   const fs = require('fs')
-  var config = fs.readFileSync('app/public/json/config.json')
+  var config = fs.readFileSync('app/public/json/config.json');
   let logoName = JSON.parse(config).logoName
   let companyPhone = JSON.parse(config).companyPhone;
 
@@ -75,14 +85,6 @@ function marketHome(req, res) {
         errorMessage: error
       })
     });
-}
-
-module.exports.home = (req, res) => {
-  if(req.query.code) {
-    marketHome(req, res);
-  } else {
-    res.render('core/lp/index.ejs');
-  }
 }
 
 module.exports.about = (req, res) => {

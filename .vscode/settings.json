@@ -3,5 +3,5 @@
   "editor.cursorStyle": "block",
   "editor.tabSize": 2,
   "editor.minimap.enabled": false,
-  "workbench.sideBar.location": "right"
+  "workbench.sideBar.location": "left"
 }

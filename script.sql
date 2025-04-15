@@ -5,11 +5,14 @@ mysqldump -u adriano -p453231 lMarket > lMarket.sql
 -- Restoring from a Dump
 mysql -u adriano -p453231 lMarket < mydatabase_backup.sql
 
-ALTER TABLE banner
-ADD COLUMN `user` INT DEFAULT NULL,
-ADD CONSTRAINT b_user 
-FOREIGN KEY (`user`) 
-REFERENCES user(`id`)  
-ON DELETE SET NULL
-ON UPDATE CASCADE;
--- next => delete employee; delete message
+crete table order_item (
+    id INT NOT NULL AUTO_INCREMENT,
+    order INT NOT NULL,
+    product INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    subTotal DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (order) REFERENCES orders(id),
+    FOREIGN KEY (product) REFERENCES products(id)
+);
