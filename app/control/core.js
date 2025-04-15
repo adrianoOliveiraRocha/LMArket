@@ -9,7 +9,7 @@ module.exports.home = (req, res) => {
 function marketHome(req, res) {
   const userId = req.query.code;
   let categoryId = null, pageNumber = 1;
-  
+  // at fisrt dont worry
   if(req.query.categoryId) categoryId = req.query.categoryId;
   if(req.query.page) pageNumber  = req.query.page;
 
@@ -18,8 +18,8 @@ function marketHome(req, res) {
 
   const fs = require('fs')
   var config = fs.readFileSync('app/public/json/config.json');
-  let logoName = JSON.parse(config).logoName
-  let companyPhone = JSON.parse(config).companyPhone;
+  let logoName = JSON.parse(config).logoName // depends on user
+  let companyPhone = JSON.parse(config).companyPhone; // depends on user
 
   const Category = require('./../models/Category');
   const Product = require('./../models/Product');
