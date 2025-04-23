@@ -1,0 +1,4 @@
+Ok. O makeHome está resolvido
+No about, ainda estamos recuperando o config via json.
+O config, a essa altura do campeonato, já deve estar na
+variável de sessão

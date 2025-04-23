@@ -5,14 +5,20 @@ mysqldump -u adriano -p453231 lMarket > lMarket.sql
 -- Restoring from a Dump
 mysql -u adriano -p453231 lMarket < mydatabase_backup.sql
 
-crete table order_item (
+create table config (
     id INT NOT NULL AUTO_INCREMENT,
-    order INT NOT NULL,
-    product INT NOT NULL,
-    quantity INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    subTotal DECIMAL(10, 2) NOT NULL,
+    user INT NOT NULL,
+    logoName varchar(200) NULL,
+    companyPhone varchar(200) NULL,
+    fontSize tinyint(10) default 12,
     PRIMARY KEY (id),
-    FOREIGN KEY (order) REFERENCES orders(id),
-    FOREIGN KEY (product) REFERENCES products(id)
+    FOREIGN KEY (user) REFERENCES user(id)
 );
+
+insert into config (
+    user, 
+    logoName, 
+    companyPhone, 
+    fontSize) 
+    values (1, 
+    'logo.png', '5585999473839', 8);

@@ -1,6 +1,6 @@
-const connect = require('./../../config/connect');
 
 const Order = (function() {
+  const connect = require('./../../config/connect');
   return {
     calculateTotal(items) {
       var total = 0;
@@ -18,25 +18,21 @@ const Order = (function() {
         '${order.address._number}', 
         ${parseInt(order.address.neighborhood)})`;
       
-      const connect = require('./../../config/connect');
       connect.query(query, callback);
     },
 
     getAllOrders(callback) {
       let query = 'select * from _order order by id';
-      const connect = require('./../../config/connect');
       connect.query(query, callback);
     },
 
     getFulfilledOrdersOrders(callback) {
       let query = 'select * from _order where status = 1';
-      const connect = require('./../../config/connect');
       connect.query(query, callback);
     },
 
     getNoFulfilledOrders(callback) {
       let query = 'select * from _order where status = 0';
-      const connect = require('./../../config/connect');
       connect.query(query, callback);
     },
 
@@ -44,7 +40,6 @@ const Order = (function() {
       let query = `select _order._datetime, _order.money, _order.creditcard, 
       _order.total, _order.status, neighborhood.delivery_fee from _order, neighborhood 
       where _order.neighborhood = neighborhood.id and _order.id = ${id}`;
-      const connect = require('../../config/connect');
       connect.query(query, callback); 
     },
 
@@ -54,34 +49,29 @@ const Order = (function() {
       neighborhood.name as neighborhood, _order.sendedToDelivery 
       from _order, neighborhood where _order.id = ${id} 
       and _order.neighborhood = neighborhood.id`;
-      const connect = require('../../config/connect');
       connect.query(query, callback); 
     },
 
     markAsFuldilled(id, callback) {
       var query = `update _order set status = 1 where id = ${id};
       delete from delivery where orderId=${id};`;
-      const connect = require('./../../config/connect');
       connect.query(query, callback);
     },
 
     myOrders(userId, callback) {
       var query = `select * from _order where user = ${userId}`;
-      const connect = require('./../../config/connect');
       connect.query(query, callback);
     },
 
     getMyFulfilledOrdersOrders(userId, callback) {
       var query = `select * from _order where user = ${userId} 
       and status = 1`;
-      const connect = require('./../../config/connect');
       connect.query(query, callback);
     },
 
     getMyNoFulFilledOrders(userId, callback) {
       var query = `select * from _order where user = ${userId} 
       and status = 0`;
-      const connect = require('./../../config/connect');
       connect.query(query, callback);
     },
 
@@ -94,7 +84,6 @@ const Order = (function() {
       let query = `
         select _order.id, _order._datetime, _order.total 
         from  _order where user = ${userId};`;
-      const connect = require('./../../config/connect');
       connect.query(query, callback);
     }
 

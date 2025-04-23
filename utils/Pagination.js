@@ -3,7 +3,7 @@ const Category = require("../app/models/Category");
 const Pagination = (function() {
 
   function Pagination() {
-    this.size = 6; // hou much products per page?
+    this.size = 6; // how much products per page?
     this.leftSize = 2;
     this.rightSize = 2;
   }

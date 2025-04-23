@@ -1,3 +1,4 @@
+
 module.exports.home = (req, res) => {
   if(req.query.code) {
     marketHome(req, res);
@@ -15,18 +16,30 @@ function marketHome(req, res) {
 
   const Pagination = require('./../../utils/Pagination');
   const pagination = new Pagination();
-
-  const fs = require('fs')
-  var config = fs.readFileSync('app/public/json/config.json');
-  let logoName = JSON.parse(config).logoName // depends on user
-  let companyPhone = JSON.parse(config).companyPhone; // depends on user
-
   const Category = require('./../models/Category');
   const Product = require('./../models/Product');
+  const Config = require('./../models/Config');
+
+  async function getConfig() {    
+    return new Promise((resolve, reject) => {
+      if(!req.session.config) {
+        Config.get(userId, (error, result) => {
+          if(error) {
+            reject('error in getConfig');
+          } else {
+            req.session.config = result[0];
+            resolve(req.session.config);
+          }
+        })
+      } else {
+        resolve(req.session.config);
+      }
+    })
+  }
 
   async function getTotalOfProducts() {
     return new Promise((resolve, reject) => {
-      Product.getTotalOfProducts(categoryId, (error, result) => {
+      Product.getTotalOfProducts(categoryId, userId, (error, result) => {
         error ? reject('error in getTotalOfProducts') : resolve(result[0].totalOfProducts);
       })
     })
@@ -37,17 +50,17 @@ function marketHome(req, res) {
       if(!categoryId) {
         resolve({name: "Todas as Categorias"});
       } else {
-        Category.getById(categoryId, (error, result) => {
+        Category.getById(categoryId, userId, (error, result) => {
           error ? reject('error in getById') : resolve(result[0]);
         })
       }
     })
   }
 
-  async function getCategpries() {
+  async function getCategories() {
     return new Promise((resolve, reject) => {
       const Category = require('./../models/Category')
-      Category.getAll((error, categories) => {
+      Category.getAll(userId, (error, categories) => {
         error ? reject('error in getAll') : resolve(categories)
       })
     })
@@ -55,7 +68,7 @@ function marketHome(req, res) {
 
   async function getPage() { //page
     return new Promise((resolve, reject) => {
-      Product.getPage(pageNumber, pagination, categoryId, (error, page) => {
+      Product.getPage(pageNumber, pagination, categoryId, userId, (error, page) => {
         error ? reject('error in getPage') : resolve(page)
       })
     })
@@ -64,18 +77,18 @@ function marketHome(req, res) {
   async function getBanners() {
     const Banner = require('./../models/Banner');
     return new Promise((resolve, reject) => {
-      Banner.getAll(function(error, banners) {
+      Banner.getAll(userId, function(error, banners) {
         error ? reject(error) : resolve(banners);
       });
 
     });
   }
 
-  Promise.all([getCurrentCategory(), getCategpries(), getPage(),
-    getTotalOfProducts(), getBanners()])
-    .then(([currentCategory, categories, page, totalOfProducts, banners]) => {
+  Promise.all([getCurrentCategory(), getCategories(), getPage(),
+    getTotalOfProducts(), getBanners(), getConfig()])
+    .then(([currentCategory, categories, page, totalOfProducts, banners, config]) => {
       res.render('core/index.ejs', {
-        logoName, companyPhone, categories, page, currentCategory, categoryId,
+        logoName: config.logoName, companyPhone: config.conpanyPhone, categories, page, currentCategory, categoryId,
          pagination, page, totalOfProducts, pageNumber, user: req.session.user,
          banners
        })

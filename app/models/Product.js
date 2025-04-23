@@ -1,4 +1,5 @@
 const Product = (function() {
+  const connect = require('./../../config/connect');
   return {
     save(data, callback) {
 
@@ -9,31 +10,27 @@ const Product = (function() {
         '${data.description}', ${price}, ${data.quantity}, ${data.stockControl},
         '${data.imageName}', ${data.category})`
 
-      const connect = require('./../../config/connect')
       connect.query(query, callback)
 
     },
 
     getAll(categoryId, callback) {
-      const connect = require('./../../config/connect')
       let query = 'select * from product';
       if(categoryId) {query += ` where category = ${categoryId}`}
       connect.query(query, callback)
     },
 
-    getPage(page, pagination, categoryId, callback) {
+    getPage(page, pagination, categoryId, userId, callback) {
       const size = pagination.size;
       const init = (page - 1) * size; 
       
-      const connect = require('./../../config/connect');
-      let query = `select * from product limit ${init}, ${size}`;
+      let query = `select * from product where user = ${userId} limit ${init}, ${size}`;
       if(categoryId) query = 
-        `select * from product where category = ${categoryId} limit ${init}, ${size}`;
+        `select * from product where user = ${userId} and category = ${categoryId} limit ${init}, ${size}`;
       connect.query(query, callback)
     },
 
     getById(id, callback) {
-      const connect = require('./../../config/connect')
       let query = `select * from product where id = ${id}`;
       connect.query(query, callback)
     },
@@ -57,27 +54,28 @@ const Product = (function() {
         stock_control=${data.stockControl}, category=${data.category} where id = ${data.id}`
       }
       
-      const connect = require('./../../config/connect');
       connect.query(query, callback);
 
     },
 
     deactivate(id, callback) {
       let query = `update product set activated = 0 where id = ${id}`
-      const connect = require('./../../config/connect')
       connect.query(query, callback);
     },
 
     activate(id, callback) {
       let query = `update product set activated = 1 where id = ${id}`
-      const connect = require('./../../config/connect')
       connect.query(query, callback);
     },
 
-    getTotalOfProducts(categoryId, callback) {
+    getTotalOfProducts(categoryId, userId, callback) {
       let query = 'select count(*) as totalOfProducts from product';
-      if(categoryId) query += ` where category = ${categoryId}`;
-      const connect = require('./../../config/connect');
+      if(categoryId) {
+        query += ` where category = ${categoryId} and user = ${userId}`;
+      } else {
+        query += ` where user = ${userId}`;
+      }
+      
       connect.query(query, callback);
     },
 
@@ -110,13 +108,11 @@ const Product = (function() {
 
     searchProduct(productName, callback) {
       let query = `select * from product where name like '%${productName}%'`;
-      const connect = require('./../../config/connect');
       connect.query(query, callback);
     },
 
     getLowStoque(callback) {
       let query = `select * from product where stock_control=1 and quantity<10`;
-      const connect = require('./../../config/connect');
       connect.query(query, callback);
     }
     
