@@ -84,6 +84,10 @@ function marketHome(req, res) {
     });
   }
 
+  async function getUser() {
+    
+  }
+
   Promise.all([getCurrentCategory(), getCategories(), getPage(),
     getTotalOfProducts(), getBanners(), getConfig()])
     .then(([currentCategory, categories, page, totalOfProducts, banners, config]) => {

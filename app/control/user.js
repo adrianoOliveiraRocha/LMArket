@@ -46,14 +46,21 @@ module.exports.login = function(req, res) {
       res.redirect('/deliveryman'); 
     }
   } else {    
-    var message = req.session.message;
+    let message = req.session.message;
     req.session.message = null;
     if(req.method == 'GET') {
+      let type = req.query.type;
+      // this config is of the App. Not of the user
       const fs = require('fs')
       var config = fs.readFileSync('app/public/json/config.json')
       let logoName = JSON.parse(config).logoName;
       let companyPhone = JSON.parse(config).companyPhone;
-      res.render('core/login.ejs', { message, companyPhone, user: null });
+      res.render('core/login.ejs', { 
+        message, 
+        companyPhone, 
+        user: null,
+        type
+       });
     } else {
       userVerify(req, res);
     }

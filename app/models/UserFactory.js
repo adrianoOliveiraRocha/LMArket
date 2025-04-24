@@ -40,7 +40,7 @@ function User(data) {
   };
 
   this.getUser = function (userId, callback) {
-    let query = 'select  from user where id = ' + userId;
+    let query = 'select * from user where id = ' + userId;
     const connect = require('./../../config/connect');
     connect.query(query, callback);
   }
@@ -84,13 +84,13 @@ function Deliveryman(data) {
 
 function UserFactory() {
   this.createUser = function(type, data=null) {
-    var user;
+    let user;
 
-    if(type === 0) {
+    if(type === 0) { // Client
       user = new User(data);
-    } else if(type === 1) {
+    } else if(type === 1) { // Admin. Business owner
       user = new Admin();
-    } else if(type === 2) {
+    } else if(type === 2) { // Deliveryman
       user = new Deliveryman(data);
     }
 
