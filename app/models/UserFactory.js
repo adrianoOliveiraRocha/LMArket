@@ -4,9 +4,26 @@ function Admin() {
     const connect = require('./../../config/connect');
     connect.query(query, callback);
   }
+
+  this.save = function(callback) {
+    // MySQL date format => "AAAA-MM-DD"
+    let birthdayArr = this.data.birthday.split('/');
+    const birthday = `${birthdayArr[2]}-${birthdayArr[1]}-${birthdayArr[0]}`;
+
+    let query = `insert into user 
+    (name, email, cpf, birthday, pwd, type, phone, street, _number, neighborhood, complement)
+    values('${this.data.name}', '${this.data.email}', 
+    '${this.data.cpf}', '${birthday}', 
+    '${this.data.pwd}', ${type}, '${this.data.phone}',
+     '${this.data.street}', '${this.data._number}', '${this.data.neighborhood}', 
+     '${this.data.complement}')`;
+    
+    connect.query(query, callback);
+  }
 }
 
 function User(data) {
+  const connect = require('./../../config/connect');
   this.data = data;
 
   this.save = function(callback) {
@@ -16,15 +33,16 @@ function User(data) {
 
     let query = `insert into user 
     (name, email, cpf, birthday, pwd, type, phone, street, _number, neighborhood, complement)
-    values('${this.data.name}', '${this.data.email}', '${this.data.cpf}', '${birthday}', '${this.data.pwd}', 0, '${this.data.phone}',
+    values('${this.data.name}', '${this.data.email}', 
+    '${this.data.cpf}', '${birthday}', 
+    '${this.data.pwd}', ${type}, '${this.data.phone}',
      '${this.data.street}', '${this.data._number}', '${this.data.neighborhood}', 
      '${this.data.complement}')`;
-    const connect = require('./../../config/connect');
+    
     connect.query(query, callback);
   }
 
   this.verify = function(data, callback) {
-    const connect = require('./../../config/connect')
     let query = `select * from user where email='${data.email}' and 
       pwd = '${data.pwd}'`;
     connect.query(query, callback);      
@@ -35,13 +53,11 @@ function User(data) {
     user.street, user._number, user.complement, neighborhood.name as neighborhood, 
     neighborhood.delivery_fee as delivery_fee from user, neighborhood  
     where user.id = ${id} and user.neighborhood = neighborhood.id`;
-    const connect = require('./../../config/connect');
     connect.query(query, callback); 
   };
 
   this.getUser = function (userId, callback) {
     let query = 'select * from user where id = ' + userId;
-    const connect = require('./../../config/connect');
     connect.query(query, callback);
   }
 
@@ -90,10 +106,11 @@ function UserFactory() {
       user = new User(data);
     } else if(type === 1) { // Admin. Business owner
       user = new Admin();
+      if(data) user.save(data); // creatin a new bussiness owner
     } else if(type === 2) { // Deliveryman
       user = new Deliveryman(data);
     }
-
+    // error: Admin doesn´t has getUser
     user.getUser = function(id, callback) {
       const connect = require('./../../config/connect')
       let query = `select * from user

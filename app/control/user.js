@@ -50,8 +50,8 @@ module.exports.login = function(req, res) {
     req.session.message = null;
     if(req.method == 'GET') {
       let type = req.query.type;
-      // this config is of the App. Not of the user
-      const fs = require('fs')
+      const fs = require('fs');
+      // this is the LMarket config. Not the user config
       var config = fs.readFileSync('app/public/json/config.json')
       let logoName = JSON.parse(config).logoName;
       let companyPhone = JSON.parse(config).companyPhone;
@@ -77,20 +77,20 @@ module.exports.register = function(req, res) {
           errorMessage: "Não foi possível recuperar os bairros"
         });
       } else {
+        let type = req.query.type;
         const fs = require('fs')
         var config = fs.readFileSync('app/public/json/config.json')
         let logoName = JSON.parse(config).logoName
         let companyPhone = JSON.parse(config).companyPhone;
         res.render('core/register.ejs', {
-          neighborhoods, companyPhone, user: null
+          neighborhoods, companyPhone, user: null, type
         });
       }
     });
   } else {
-    var data = req.body;
     const UserFactory = require('../models/UserFactory');
     let factory = new UserFactory();
-    let user = factory.createUser(0, req.body);
+    let user = factory.createUser(req.query.type, req.body);
     user.save(function(error) {
       if(error) {
         res.render('core/error.ejs', {

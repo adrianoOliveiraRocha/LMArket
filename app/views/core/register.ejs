@@ -15,6 +15,7 @@
 </head>
 
 <body onload="ShopingCart.verify();">
+  
   <div class="container-fluid">
 
     <!-- Navigation -->
@@ -37,6 +38,9 @@
 
               <form class="form" action="/register" 
                 method="post">
+
+                <input type="number" value="<%=type%>" hidden>
+
                 <!--name -->
                 <div class="row">
                   <div class="col-sm-3">
@@ -78,8 +82,8 @@
                     <label for="birthday" class="form-control text-center c2">Data de Nascimento</label>
                   </div>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="birthday" maxlength="10"
-                      placeholder="DD/MM/AAAA"  id="birthday" onkeyup="Helper.fixDate(this.value);">
+                    <input type="date" class="form-control" name="birthday" maxlength="10"
+                      id="birthday">
                   </div>
                 </div>
                 <hr>
