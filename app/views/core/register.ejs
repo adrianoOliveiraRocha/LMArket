@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
 
@@ -39,7 +39,7 @@
               <form class="form" action="/register" 
                 method="post">
 
-                <input type="number" value="<%=type%>" hidden>
+                <input type="number" name="type" value="<%=type%>" hidden>
 
                 <!--name -->
                 <div class="row">
@@ -79,7 +79,8 @@
                 <!-- birthday -->
                 <div class="row">
                   <div class="col-sm-3">
-                    <label for="birthday" class="form-control text-center c2">Data de Nascimento</label>
+                    <label lang="pt-br"
+                      for="birthday" class="form-control text-center c2">Data de Nascimento</label>
                   </div>
                   <div class="col-sm-9">
                     <input type="date" class="form-control" name="birthday" maxlength="10"

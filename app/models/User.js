@@ -1,0 +1,15 @@
+const User = {
+  connect: require("../../config/connect"),
+  save(data, callback) {
+    let sql = `insert into user 
+    (name, email, cpf, birthday, pwd, type, phone, street, _number, neighborhood, complement)
+    values('${data.name}', '${data.email}', 
+    '${data.cpf}', '${data.birthday}', 
+    '${data.pwd}', ${data.type}, '${data.phone}',
+     '${data.street}', '${data._number}', '${data.neighborhood}', 
+     '${data.complement}')`;
+    this.connect.query(sql, callback);
+  }
+}
+
+module.exports = User;

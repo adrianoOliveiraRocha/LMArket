@@ -52,7 +52,7 @@ module.exports.login = function(req, res) {
       let type = req.query.type;
       const fs = require('fs');
       // this is the LMarket config. Not the user config
-      var config = fs.readFileSync('app/public/json/config.json')
+      var config = fs.readFileSync('app/public/json/config.json');
       let logoName = JSON.parse(config).logoName;
       let companyPhone = JSON.parse(config).companyPhone;
       res.render('core/login.ejs', { 
@@ -80,18 +80,16 @@ module.exports.register = function(req, res) {
         let type = req.query.type;
         const fs = require('fs')
         var config = fs.readFileSync('app/public/json/config.json')
-        let logoName = JSON.parse(config).logoName
         let companyPhone = JSON.parse(config).companyPhone;
         res.render('core/register.ejs', {
           neighborhoods, companyPhone, user: null, type
         });
       }
     });
-  } else {
-    const UserFactory = require('../models/UserFactory');
-    let factory = new UserFactory();
-    let user = factory.createUser(req.query.type, req.body);
-    user.save(function(error) {
+  } else { // POST
+    let data = req.body;
+    const User = require('../models/User');
+    User.save(data, function(error) {
       if(error) {
         res.render('core/error.ejs', {
           errorMessage: error
