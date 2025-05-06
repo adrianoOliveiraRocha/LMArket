@@ -3,29 +3,23 @@ const Order = require('./../models/Order');
 function userVerify(req, res) {
   
   let data = req.body;
-  const UserFactory = require('../models/UserFactory');
-  const factory = new UserFactory();
-  const user = factory.createUser(0);
+  const user = require('./../models/User');
   
   user.verify(data, ((error, result) => {  
     if (error) {
       res.render('core/error.ejs', {
         errorMessage: error
       })
-    } else {   
-      
+    } else { 
       try {
         req.session.user = result[0];
-
-        if(req.session.user.type == 0) {
-          res.redirect('/user');
-        } else if(req.session.user.type == 1) {
-          res.redirect('/admin')
+       if(req.session.user.type == 1) {
+          res.redirect('/admin');
         } else if(req.session.user.type == 2) {
-          res.redirect('/deliveryman')
+          res.redirect('/user');
         }
         
-     } catch (error) { // user not found
+      } catch (error) { // user not found
         res.render('core/error.ejs', {
           errorMessage: "Usuário não encontrado"
         })

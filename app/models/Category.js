@@ -1,29 +1,28 @@
-const Category = (function() {
-  // atributes
-  const connect = require('./../../config/connect');
-  return {
+const Category = {
+  connect: require('./../../config/connect'),
 
-    new(name, callback) {
-      let query = `insert into category (name) values ('${name}')`;
-      connect.query(query, callback)
-    },
+  new(name, userId, callback) {
+    let query = `insert into category (name, user) 
+    values ('${name}', ${userId})`;
+    console.log(query);
+    this.connect.query(query, callback)
+  },
 
-    getAll(userId, callback) {
-      let query = `select * from category where user = ${userId}`;
-      connect.query(query, callback)
-    },
+  getAll(userId, callback) {
+    let query = `select * from category where user = ${userId}`;
+    this.connect.query(query, callback)
+  },
 
-    getById(categoryId, userId, callback) {
-      let query = `select * from category where id = ${categoryId} and user = ${userId}`;
-      connect.query(query, callback)
-    },
+  getById(categoryId, userId, callback) {
+    let query = `select * from category where id = ${categoryId} and user = ${userId}`;
+    this.connect.query(query, callback)
+  },
 
-    update(data, callback) {
-      let query = `update category set name = '${data.name}' where id = ${data.id}`
-      connect.query(query, callback)
-    },
-    
-  }
-})()
+  update(data, callback) {
+    let query = `update category set name = '${data.name}' where id = ${data.id}`
+    this.connect.query(query, callback)
+  },
+  
+}
 
 module.exports = Category

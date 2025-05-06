@@ -223,8 +223,14 @@ var Category = (function() {
     },
 
     editCategory() {
-      var categoryForm = document.getElementById('categoryForm');
+      let categoryForm = document.getElementById('categoryForm');
       simplePostAjax('/edit-category', categoryForm);
+    },
+
+    deleteCategory() {
+      alert('delete')
+      let categoryForm = document.getElementById('categoryForm');
+      simplePostAjax('/delete-category', categoryForm);
     }
   }
 

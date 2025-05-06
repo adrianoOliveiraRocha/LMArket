@@ -9,6 +9,12 @@ const User = {
      '${data.street}', '${data._number}', '${data.neighborhood}', 
      '${data.complement}')`;
     this.connect.query(sql, callback);
+  },
+
+  verify(data, callback) {
+    let query = `select * from user where email='${data.email}' and 
+      pwd = '${data.pwd}'`;
+    this.connect.query(query, callback);      
   }
 }
 

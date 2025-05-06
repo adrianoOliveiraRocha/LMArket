@@ -2,8 +2,8 @@ module.exports.new = (req, res) => {
   if(req.method == 'GET') res.render('admin/new-category.ejs');
   else {
     let name = req.body.name
-    let Category = require('./../models/Category')
-    Category.new(name, (error, result) => {
+    const Category = require('../models/Category');
+    Category.new(name, req.session.user.id, (error, result) => {
       if(error) {
         res.render('admin/error.ejs', {
           errorMessage: "Não foi possível salvar a categoria. "
@@ -20,8 +20,8 @@ module.exports.new = (req, res) => {
 }
 
 module.exports.showAll = (req, res) => {
-  let Category = require('./../models/Category')
-  Category.getAll((error, result) => {
+  const Category = require('./../models/Category');
+  Category.getAll(req.session.user.id, (error, result) => {
     if(error) {
       res.render('admin/error.ejs', {
         errorMessage: "Não foi possível recuperar as categorias. "
@@ -37,12 +37,11 @@ module.exports.showAll = (req, res) => {
 }
 
 module.exports.editCategory = (req, res) => {
-  let Category = require('./../models/Category')
+  const Category = require('./../models/Category');
   if(req.method == 'GET') {  
     let id = req.query.id
-    Category.getById(id, (error, result) => {
+    Category.getById(id, req.session.user.id, (error, result) => {
       if(error) {
-        console.error(error)
         res.render('admin/error.ejs', {
           errorMessage: "Não foi possível recuperar as categorias. "
           +"Por favor, entre em contato com o desenvolvedor"
@@ -71,4 +70,10 @@ module.exports.editCategory = (req, res) => {
     })    
   }
   
+}
+
+module.exports.deleteCategory = (req, res) => {
+  res.render('admin/error.ejs', {
+    errorMessage: `Caaaalma! Temos que testar antes de deletar querido`
+  })
 }

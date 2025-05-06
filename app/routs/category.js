@@ -18,4 +18,9 @@ module.exports = function(app) {
   app.post('/edit-category', (req, res) => {
     require('./../control/category').editCategory(req, res)
   })
+
+  app.post('/delete-category', (req, res) => {
+    console.log('/delete-category');
+    require('./../control/category').deleteCategory(req, res)
+  })
 }
