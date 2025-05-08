@@ -228,9 +228,8 @@ var Category = (function() {
     },
 
     deleteCategory() {
-      alert('delete')
-      let categoryForm = document.getElementById('categoryForm');
-      simplePostAjax('/delete-category', categoryForm);
+      let categoryId = document.getElementById('categoryForm').id.value;
+      simpleGetAjax(`/delete-category?categoryId=${categoryId}`);
     }
   }
 

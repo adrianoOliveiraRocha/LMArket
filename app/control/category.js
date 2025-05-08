@@ -73,7 +73,16 @@ module.exports.editCategory = (req, res) => {
 }
 
 module.exports.deleteCategory = (req, res) => {
-  res.render('admin/error.ejs', {
-    errorMessage: `Caaaalma! Temos que testar antes de deletar querido`
+  let categoryId = req.query.categoryId;
+  const Category = require('./../models/Category');
+  Category.delete(categoryId, (error, result) => {
+    if(error) {
+      res.render('admin/error.ejs', {
+        errorMessage: error
+      })
+    } else {
+      res.json({count});
+    }
   })
+  
 }
