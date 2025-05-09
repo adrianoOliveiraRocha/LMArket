@@ -24,27 +24,7 @@ const Category = {
   },
 
   delete(categoryId, callback) {
-    /*
-    DELIMITER //
-    CREATE PROCEDURE delete_category_if_empty(IN categoryId INT)
-    BEGIN
-        DECLARE total_products INT;
-        
-        SELECT COUNT(*) INTO total_products FROM product WHERE category = categoryId;
-        
-        IF total_products = 0 THEN
-            DELETE FROM category WHERE id = categoryId;
-            SELECT 'Categoria deletada' AS result;
-        ELSE
-            SELECT 'Categoria não está vazia' AS result;
-        END IF;
-    END //
-    DELIMITER ;
-
-    -- Chamando o procedimento para a categoria 19
-    CALL delete_category_if_empty(19);
-    */
-    let query = `select count(*) as n from product where category = ${categoryId};`
+    let query = `CALL delete_category_if_empty(${categoryId});`
     this.connect.query(query, callback);
   }
   

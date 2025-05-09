@@ -81,7 +81,8 @@ module.exports.deleteCategory = (req, res) => {
         errorMessage: error
       })
     } else {
-      res.json({count});
+      let message = result[0][0].result;
+      res.render('admin/message.ejs', {message});
     }
   })
   
