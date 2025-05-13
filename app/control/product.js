@@ -2,7 +2,7 @@ module.exports.new = function(req, res) {
 
   if(req.method == 'GET') {
     const Category = require('./../models/Category')
-    Category.getAll((error, result) => {
+    Category.getAll(req.session.user.id, (error, result) => {
       if(error) {
         res.render('admin/error.ejs', {
           errorMessage: "Não foi possível realizar essa operação. Por favor, "
@@ -36,6 +36,7 @@ module.exports.new = function(req, res) {
       let resultUpload = await uploadImage()
       return new Promise((resolve, reject) => {
         if(resultUpload) {
+          data.user = req.session.user.id;
           const Product = require('./../models/Product')
           Product.save(data, (error, result) => {
             error ? reject(error) : resolve(result)
@@ -63,7 +64,7 @@ module.exports.new = function(req, res) {
 module.exports.showAll = function(req, res) {
   const Product = require('./../models/Product')
 
-  Product.getAll(null, (error, products) => {
+  Product.getAll(null, req.session.user.id, (error, products) => {
     if(error) {
       res.render('admin/error.ejs', {
         errorMessage: "Não foi possivel recuperar os produtos. Por favor, "
@@ -85,7 +86,7 @@ module.exports.editProduct = function(req, res) {
 
     async function getCategories() {
       return new Promise((resolve, reject) => {
-        Category.getAll((error, categories) => {
+        Category.getAll(req.session.user.id, (error, categories) => {
           error ? reject(error) : resolve(categories)
         })
       })
@@ -139,7 +140,7 @@ module.exports.editProduct = function(req, res) {
     }
 
     async function updateImage() {
-      let resultDeleteImage = await deleteOldImage()
+      let resultDeleteImage = await deleteOldImage();
       return new Promise((resolve, reject) => {
         if(resultDeleteImage) { // file has been sended and the old image has been deleted
 

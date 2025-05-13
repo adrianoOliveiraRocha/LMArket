@@ -240,7 +240,6 @@ var Product = (function() {
 
   return {
     new() {
-      document.getElementById('main-menu').className="main-menu navbar-collapse collapse";
       simpleGetAjax('/new-product');
     },
 

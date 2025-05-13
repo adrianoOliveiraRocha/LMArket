@@ -5,10 +5,10 @@ const Product = (function() {
 
       let price = parseFloat(data.price.replace(',', '.'))
       let query = `insert into product
-        (name, barcode, description, price, quantity, stock_control, imageName, category)
+        (name, barcode, description, price, quantity, stock_control, imageName, category, user)
         values('${data.name}', '${data.barcode}',
         '${data.description}', ${price}, ${data.quantity}, ${data.stockControl},
-        '${data.imageName}', ${data.category})`
+        '${data.imageName}', ${data.category}, ${data.user})`
 
       connect.query(query, callback)
 
@@ -16,7 +16,11 @@ const Product = (function() {
 
     getAll(categoryId, userId, callback) {
       let query = 'select * from product';
-      if(categoryId) {query += ` where category = ${categoryId}`}
+      if(categoryId) {
+        query += ` where category = ${categoryId} and user = ${userId}`;
+      } else {
+        query += ` where user = ${userId}`;
+      }
       connect.query(query, callback)
     },
 
