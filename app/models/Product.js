@@ -14,7 +14,7 @@ const Product = (function() {
 
     },
 
-    getAll(categoryId, callback) {
+    getAll(categoryId, userId, callback) {
       let query = 'select * from product';
       if(categoryId) {query += ` where category = ${categoryId}`}
       connect.query(query, callback)
