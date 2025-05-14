@@ -3,8 +3,9 @@ const Neighborhood = {
 
   connect: require('./../../config/connect'),
   
-  save(name, deliveryFee, callback) {
-    let query = `insert into neighborhood(name, delivery_fee) values('${name}', '${parseFloat(deliveryFee.replace(',', '.'))}')`
+  save(name, deliveryFee, userId, callback) {
+    let query = `insert into neighborhood(name, delivery_fee, user) 
+    values('${name}', '${parseFloat(deliveryFee.replace(',', '.'))}', ${userId})`;
     this.connect.query(query, callback)
   },
 

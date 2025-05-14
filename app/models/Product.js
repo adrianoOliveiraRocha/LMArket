@@ -115,8 +115,9 @@ const Product = (function() {
       connect.query(query, callback);
     },
 
-    getLowStoque(callback) {
-      let query = `select * from product where stock_control=1 and quantity<10`;
+    getLowStoque(userId, callback) {
+      let query = `select * from product 
+      where stock_control=1 and quantity<10 and user = ${userId}`;
       connect.query(query, callback);
     }
     

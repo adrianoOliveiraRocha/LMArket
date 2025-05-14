@@ -1,11 +1,11 @@
 module.exports.new = function(req, res) {
   if(req.method == 'GET') {
-    res.render('admin/new-neighborhood.ejs')
+    res.render('admin/new-neighborhood.ejs');
   } else {
-    const Neighborhood = require('./../models/Neighborhood')
+    const Neighborhood = require('./../models/Neighborhood');
     let name = req.body.name;
     let deliveryFee = req.body.deliveryFee;
-    Neighborhood.save(name, deliveryFee, (error, result) => {
+    Neighborhood.save(name, deliveryFee, req.session.user.id, (error, result) => {
       if(error) {
         res.render('admin/error.ejs', {
           errorMessage: "Não foi possível salvar o bairro: " + error

@@ -456,7 +456,7 @@ module.exports.changeFontSize = function(req, res) {
 module.exports.banners = function(req, res) {
   const Banner = require('./../models/Banner');
 
-  Banner.getAll(function(error, banners) {
+  Banner.getAll(req.session.user.id, function(error, banners) {
     if (error) {
       let errorMessage = `Não foi possível recuperar os banners. Erro: ${error}`;
       res.render('admin/error.ejs', { errorMessage });
@@ -490,7 +490,7 @@ module.exports.newBanner = function(req, res) {
       const Banner = require('./../models/Banner');
       
       return new Promise((resolve, reject) => {
-        Banner.new(fileName, (error, result) => {
+        Banner.new(fileName, res.session.user.id, (error, result) => {
           error ? reject(error) : resolve(true);
         });
       }); 
@@ -732,7 +732,7 @@ module.exports.deleteDelivery = (req, res) => {
 
 module.exports.lowStoque = function(req, res) {
   const Product = require('./../models/Product');
-  Product.getLowStoque(function(error, products) {
+  Product.getLowStoque(req.session.user.id, function(error, products) {
     if(error) {
       let errorMessage = 'Não foi possível recuperar os produtos';
       res.render('admin/error.ejs', {errorMessage});

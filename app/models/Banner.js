@@ -1,8 +1,9 @@
 const Banner = (function() {
   const connect = require('./../../config/connect');
   return {
-    new(fileName, callback) {
-      let query = `insert into banner (name) values ('${fileName}')`;
+    new(fileName, userId, callback) {
+      let query = `insert into banner (name, user) 
+      values ('${fileName}', ${userId})`;
       connect.query(query, callback);
     },
 
