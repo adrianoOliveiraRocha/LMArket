@@ -21,7 +21,7 @@ app.set('view engine', 'ejs')
 app.set('views', './app/views');
 
 try {
-  localEnv = fs.readFileSync('./config/localEnv.json')
+  localEnv = fs.readFileSync('./config/localEnv.json');
   useLocalHost(JSON.parse(localEnv))
 } catch (error) {
   console.log('using remote host')
@@ -30,6 +30,7 @@ try {
 
 //HOSTS
 function useLocalHost(localEnv) {
+  console.log("useLocalHost")
   const http = require('http')
   const port = 8000;
   const httpServer = http.createServer(app);
@@ -74,6 +75,7 @@ function useLocalHost(localEnv) {
   require('./app/routs/product')(app);
   require('./app/routs/neighborhood')(app);
   require('./app/routs/deliveryman')(app);
+  require('./app/routs/banner')(app);
 
   httpServer.listen(port, () => {
     console.log('running on port in my localhost on port ' + port)
@@ -123,6 +125,7 @@ function useRemoteHost() {
   require('./app/routs/product')(app);
   require('./app/routs/neighborhood')(app);
   require('./app/routs/deliveryman')(app);
+  require('./app/routs/banner')(app);
 
   const fs = require('fs');
   const credentials = {

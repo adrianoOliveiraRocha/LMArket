@@ -84,22 +84,6 @@ module.exports = (app) => {
     require('./../control/admin').changeFontSize(req, res);
   })  
 
-  app.get('/all-banners', function(req, res) {
-    require('./../control/admin').banners(req, res);
-  })
-
-  app.get('/new-banner', function(req, res) {
-    require('./../control/admin').newBanner(req, res);
-  })
-
-  app.post('/new-banner', function(req, res) {
-    require('./../control/admin').newBanner(req, res);
-  })
-
-  app.get('/delete-banner', function(req, res) {
-    require('./../control/admin').deleteBanner(req, res);
-  });
-
   app.get('/delete-readed-messages', function(req, res) {
     require('./../control/admin').deleteReadedMessages(req, res);
   });

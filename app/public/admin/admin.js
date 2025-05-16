@@ -308,7 +308,6 @@ var Product = (function() {
 var Banner = (function() {
   return {
     new() {
-      console.log('test');
       document.getElementById('main-menu').className="main-menu navbar-collapse collapse";
       simpleGetAjax('/new-banner');
     },
