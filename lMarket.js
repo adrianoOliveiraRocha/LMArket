@@ -76,6 +76,7 @@ function useLocalHost(localEnv) {
   require('./app/routs/neighborhood')(app);
   require('./app/routs/deliveryman')(app);
   require('./app/routs/banner')(app);
+  require('./app/routs/order.js')(app);
 
   httpServer.listen(port, () => {
     console.log('running on port in my localhost on port ' + port)
@@ -126,6 +127,7 @@ function useRemoteHost() {
   require('./app/routs/neighborhood')(app);
   require('./app/routs/deliveryman')(app);
   require('./app/routs/banner')(app);
+  require('./app/routs/order.js')(app);
 
   const fs = require('fs');
   const credentials = {

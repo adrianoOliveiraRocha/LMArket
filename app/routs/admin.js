@@ -12,26 +12,6 @@ module.exports = (app) => {
     require('../control/admin').updateProfile(req, res);
   })
 
-  app.get('/all-orders', function(req, res) {
-    require('./../control/admin').allOrders(req, res);
-  })
-
-  app.get('/fulfilled-orders', function(req, res) {
-    require('./../control/admin').fulfilledOrders(req, res);
-  })
-
-  app.get('/no-fulfilled-orders', function(req, res) {
-    require('./../control/admin').noFulfilledOrders(req, res);
-  })
-
-  app.get('/order-details', function(req, res) {
-    require('./../control/admin').orderDetails(req, res);
-  })
-
-  app.get('/mark-as-fulfilled', function(req, res) {
-    require('./../control/admin').markAsFuldilled(req, res);
-  })
-
   app.get('/show-nofitications', function(req, res) {
     require('./../control/admin').showrNotification(req, res);
   })
