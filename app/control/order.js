@@ -56,12 +56,12 @@ module.exports.orderDetails = function(req, res) {
 
   const Order = require('./../models/Order');
   const OrderItem = require('./../models/OrderItem');
-  const Neighborhood = require('./../models/Neighborhood');
+  // const Neighborhood = require('./../models/Neighborhood');
   const User = require('./../models/User');
 
   async function getOrder() {
     return new Promise(function(resolve, reject) {
-      Order.getOrerInfo(orderId, function(error, result) {
+      Order.getOrderInfo(req.session.user.id, orderId, function(error, result) {
         error ? reject(error) : resolve(result[0]);
       });
     });
@@ -69,8 +69,7 @@ module.exports.orderDetails = function(req, res) {
 
   async function getUserInfos() {
     return new Promise(function(resolve, reject) {
-      var user = userFactory.createUser(0);
-      user.getUserInfos(userId, function(error, result) {
+      User.getUserInfos(userId, function(error, result) {
         error ? reject(error) : resolve(result[0]);
       });
     });

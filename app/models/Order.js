@@ -47,12 +47,13 @@ const Order = {
     this.connect.query(query, callback); 
   },
 
-  getOrerInfo(id, callback) {
+  getOrderInfo(userId, orderId, callback) {
     let query = `select _order.id, _order._datetime, _order.user, _order.total, 
     _order.money, _order.creditcard, _order.status, _order.street, _order._number, 
     neighborhood.name as neighborhood, _order.sendedToDelivery 
-    from _order, neighborhood where _order.id = ${id} 
-    and _order.neighborhood = neighborhood.id`;
+    from _order, neighborhood where _order.id = ${orderId} 
+    and _order.neighborhood = neighborhood.id
+    and user = ${userId}`;
     this.connect.query(query, callback); 
   },
 
