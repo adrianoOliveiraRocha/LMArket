@@ -52,8 +52,7 @@ const Order = {
     _order.money, _order.creditcard, _order.status, _order.street, _order._number, 
     neighborhood.name as neighborhood, _order.sendedToDelivery 
     from _order, neighborhood where _order.id = ${orderId} 
-    and _order.neighborhood = neighborhood.id
-    and user = ${userId}`;
+    and _order.neighborhood = neighborhood.id`;
     this.connect.query(query, callback); 
   },
 

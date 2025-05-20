@@ -47,7 +47,7 @@ module.exports.noFulfilledOrders = function(req, res) {
 }
 
 module.exports.orderDetails = function(req, res) {
-  let orderId = req.query.orderId, userId = req.query.userId;
+  let orderId = req.query.orderId, userId = req.session.user.id;
 
   //config
   const fs = require('fs');
@@ -88,9 +88,11 @@ module.exports.orderDetails = function(req, res) {
 
   Promise.all([getOrder(), getUserInfos(), getItems()])
     .then(([order, client, items]) => {
-      res.render('admin/order-details.ejs', {
-        order, client, items, config
-      });
+      res.json({order, client, items});
+      
+      // res.render('admin/order-details.ejs', {
+      //   order, client, items, config
+      // });
     })
     .catch(error => {
       res.render('admin/error.ejs', {
