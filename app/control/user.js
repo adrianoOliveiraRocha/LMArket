@@ -30,7 +30,6 @@ function userVerify(req, res) {
 }
 
 module.exports.login = function(req, res) {
-  
   if(req.session.user) {
     if(req.session.user.type == 1) {
       res.redirect('/admin');

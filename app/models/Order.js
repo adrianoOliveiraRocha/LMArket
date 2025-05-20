@@ -28,16 +28,15 @@ const Order = {
     this.connect.query(query, callback);
   },
 
-  getFulfilledOrdersOrders(userId, callback) {
+  getFulfilledOrders(userId, callback) {
     let query = `select * from _order 
     where status = 1 and user = ${userId}`;
     this.connect.query(query, callback);
   },
 
   getNoFulfilledOrders(userId, callback) {
-    console.log(userId)
-    let query = `select * from _order where status = 0`;
-    console.log(query)
+    let query = `select * from _order 
+    where status = 0 and user = ${userId};`;
     this.connect.query(query, callback);
   },
 

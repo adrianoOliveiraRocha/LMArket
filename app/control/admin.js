@@ -1,9 +1,9 @@
 module.exports.admin = (req, res) => {
-
+    
   if(req.session.user) {
 
     const Order = require('./../models/Order');
-    Order.getNoFulfilledOrders(function(error, orders) {
+    Order.getNoFulfilledOrders(req.session.user.id, function(error, orders) {
       if(error) {
         res.render('admin/error.ejs', {
           errorMessage: "Não foi possível recuperar os pedidos. " + error
@@ -126,7 +126,7 @@ module.exports.showrNotification = function(req, res) {
 
   async function getNoFulfilledOrders() {
     return new Promise(function(resolve, reject) {
-      Order.getNoFulfilledOrders(function(error, orders) {
+      Order.getNoFulfilledOrders(req.session.user.id, function(error, orders) {
         error ? reject(error) : resolve(orders);
       });
     });

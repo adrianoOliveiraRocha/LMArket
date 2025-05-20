@@ -15,8 +15,9 @@ module.exports.allOrders = function(req, res) {
 }
 
 module.exports.fulfilledOrders = function(req, res) {
+  console.log("fulfilledOrders")
   const Order = require('./../models/Order');
-  Order.getFulfilledOrdersOrders(req.session.user.id, 
+  Order.getFulfilledOrders(req.session.user.id, 
     function(error, orders) {
       if(error) {
         res.render('admin/error.ejs', {
@@ -31,7 +32,18 @@ module.exports.fulfilledOrders = function(req, res) {
 }
 
 module.exports.noFulfilledOrders = function(req, res) {
-  res.json({msg: "Vai carai"});
+  const Order = require('../models/Order');
+  Order.getNoFulfilledOrders(req.session.user.id, (error, orders) => {
+    if(error) {
+      res.render('admin/error.ejs', {
+        errorMessage: "Não foi possível recuperar os pedidos. " + error
+      })
+    } else {
+      res.render('admin/orders.ejs', {
+        orders, user: req.session.user, title: "Pedidos Encerrados"
+      });
+    }
+  })
 }
 
 module.exports.orderDetails = function(req, res) {
@@ -45,8 +57,7 @@ module.exports.orderDetails = function(req, res) {
   const Order = require('./../models/Order');
   const OrderItem = require('./../models/OrderItem');
   const Neighborhood = require('./../models/Neighborhood');
-  const UserFactory = require('./../models/UserFactory');
-  var userFactory = new UserFactory();
+  const User = require('./../models/User');
 
   async function getOrder() {
     return new Promise(function(resolve, reject) {
