@@ -1,6 +1,7 @@
 
 module.exports.home = (req, res) => {
   if(req.query.code) {
+    req.session.code = req.query.code; 
     marketHome(req, res);
   } else {
     res.render('core/lp/index.ejs');
@@ -8,7 +9,6 @@ module.exports.home = (req, res) => {
 }
 
 function marketHome(req, res) {
-  const userId = req.query.code;
   let categoryId = null, pageNumber = 1;
   // at fisrt dont worry
   if(req.query.categoryId) categoryId = req.query.categoryId;
@@ -23,7 +23,7 @@ function marketHome(req, res) {
   async function getConfig() {    
     return new Promise((resolve, reject) => {
       if(!req.session.config) {
-        Config.get(userId, (error, result) => {
+        Config.get(req.session.code, (error, result) => {
           if(error) {
             reject('error in getConfig');
           } else {
@@ -39,7 +39,9 @@ function marketHome(req, res) {
 
   async function getTotalOfProducts() {
     return new Promise((resolve, reject) => {
-      Product.getTotalOfProducts(categoryId, userId, (error, result) => {
+      Product.getTotalOfProducts(categoryId, 
+        req.session.code, 
+        (error, result) => {
         error ? reject('error in getTotalOfProducts') : resolve(result[0].totalOfProducts);
       })
     })
@@ -50,7 +52,9 @@ function marketHome(req, res) {
       if(!categoryId) {
         resolve({name: "Todas as Categorias"});
       } else {
-        Category.getById(categoryId, userId, (error, result) => {
+        Category.getById(categoryId, 
+          req.session.code, 
+          (error, result) => {
           error ? reject('error in getById') : resolve(result[0]);
         })
       }
@@ -60,7 +64,9 @@ function marketHome(req, res) {
   async function getCategories() {
     return new Promise((resolve, reject) => {
       const Category = require('./../models/Category')
-      Category.getAll(userId, (error, categories) => {
+      Category.getAll(
+        req.session.code, 
+        (error, categories) => {
         error ? reject('error in getAll') : resolve(categories)
       })
     })
@@ -68,7 +74,9 @@ function marketHome(req, res) {
 
   async function getPage() { //page
     return new Promise((resolve, reject) => {
-      Product.getPage(pageNumber, pagination, categoryId, userId, (error, page) => {
+      Product.getPage(pageNumber, pagination, 
+        categoryId, req.session.code, 
+        (error, page) => {
         error ? reject('error in getPage') : resolve(page)
       })
     })
@@ -77,7 +85,9 @@ function marketHome(req, res) {
   async function getBanners() {
     const Banner = require('./../models/Banner');
     return new Promise((resolve, reject) => {
-      Banner.getAll(userId, function(error, banners) {
+      Banner.getAll(
+        req.session.code, 
+        function(error, banners) {
         error ? reject(error) : resolve(banners);
       });
 
@@ -85,15 +95,29 @@ function marketHome(req, res) {
   }
 
   async function getUser() {
-    
+    return new Promise((resolve, reject) => {
+      if(req.session.user) resolve(req.session.user);
+      else {
+        const User = require('./../models/User');
+        User.getUser(
+          req.session.code, 
+          (error, user) => {
+            if(error) reject(error);
+            else {
+              resolve(user);
+            }
+        })
+      }
+    })
   }
 
   Promise.all([getCurrentCategory(), getCategories(), getPage(),
-    getTotalOfProducts(), getBanners(), getConfig()])
-    .then(([currentCategory, categories, page, totalOfProducts, banners, config]) => {
+    getTotalOfProducts(), getBanners(), getConfig(), getUser()])
+    .then(([currentCategory, categories, page, totalOfProducts, 
+      banners, config, user]) => {
       res.render('core/index.ejs', {
         logoName: config.logoName, companyPhone: config.conpanyPhone, categories, page, currentCategory, categoryId,
-         pagination, page, totalOfProducts, pageNumber, user: req.session.user,
+         pagination, page, totalOfProducts, pageNumber, user,
          banners
        })
     })
@@ -180,10 +204,7 @@ module.exports.userVerify = (req, res) => {
 }
 
 module.exports.productDetail = function(req, res) {
-  let id = req.query.id
-  const fs = require('fs')
-  var config = fs.readFileSync('app/public/json/config.json')
-  let companyPhone = JSON.parse(config).companyPhone
+  let id = req.query.id; // product id
   const Product = require('./../models/Product');
 
   Product.getById(id, (error, result) => {
@@ -194,7 +215,7 @@ module.exports.productDetail = function(req, res) {
     } else {
       res.render('core/product.ejs', {
         product: result[0],
-        companyPhone,
+        companyPhone: req.session.config.companyPhone,
         user: req.session.user
       })
     }

@@ -23,6 +23,11 @@ const User = {
     neighborhood.delivery_fee as delivery_fee from user, neighborhood  
     where user.id = ${userId} and user.neighborhood = neighborhood.id`;
     this.connect.query(query, callback); 
+  },
+
+  getUser(userId, callback) {
+    let query = 'select * from user where id = ' + userId;
+    this.connect.query(query, callback);
   }
 }
 
