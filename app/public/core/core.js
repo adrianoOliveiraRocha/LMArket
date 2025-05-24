@@ -237,6 +237,7 @@ ShopingCart = {
 
   finalize() {
     var carForm = this.constructCarForm();
+    console.log(carForm);
     carForm.method = "post";
     carForm.action = "/get-client-info";
     document.body.appendChild(carForm);

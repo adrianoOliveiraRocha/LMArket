@@ -254,7 +254,8 @@ module.exports.searchProduct = function(req, res) {
 }
 
 module.exports.getClientInfo = function(req, res) {
-
+  console.log("getClientInfo");
+  
   req.session.car = req.body;
   var user = null;
   var loged = false;
@@ -263,9 +264,7 @@ module.exports.getClientInfo = function(req, res) {
     user = req.session.user;
   }
 
-  const fs = require('fs');
-  var config = fs.readFileSync('app/public/json/config.json');
-  let companyPhone = JSON.parse(config).companyPhone;
+  let companyPhone = req.session.config.companyPhone;
   res.render('core/get-client-info.ejs',
   { companyPhone, user, loged });
 
