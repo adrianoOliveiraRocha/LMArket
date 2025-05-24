@@ -1,6 +1,8 @@
 
 module.exports.home = (req, res) => {
-  if(req.query.code) {
+  if(req.session.code) {
+    marketHome(req, res);
+  } else if(req.query.code) {
     req.session.code = req.query.code; 
     marketHome(req, res);
   } else {
