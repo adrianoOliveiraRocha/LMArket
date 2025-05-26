@@ -254,19 +254,22 @@ module.exports.searchProduct = function(req, res) {
 }
 
 module.exports.getClientInfo = function(req, res) {
-  console.log("getClientInfo");
-  
-  req.session.car = req.body;
-  var user = null;
-  var loged = false;
-  if(req.session.user) {
-    loged = true;
-    user = req.session.user;
-  }
+  /*
+  infos of the client I need get
+  client name
+  payment method (
+    if money get money and rest
+  )
+  address {neighborhood, street, number}
+  phone
+  reference point
 
-  let companyPhone = req.session.config.companyPhone;
-  res.render('core/get-client-info.ejs',
-  { companyPhone, user, loged });
+  keep order, each intemOrder and delivery
+  send to user via whatsapp
+
+  */
+  req.session.car = req.body;
+  res.render('core/get-client-info.ejs');
 
 }
 

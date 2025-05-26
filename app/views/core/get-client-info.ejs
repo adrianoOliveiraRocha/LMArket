@@ -29,8 +29,7 @@
 
 </head>
 
-<body onload="ShopingCart.verify(); 
-  User.isitLoged('<%=loged%>');">
+<body onload="ShopingCart.verify();">
   <div class="container-fluid">
 
     <!-- Navigation -->
@@ -51,27 +50,28 @@
 
             <div class="card-body" id="variableContent">
 
-              <form class="form" action="/order-login" 
+              <form class="form" action="/send-client-infos" 
                 method="post" id="getClientInfoForm">
-                <!-- email -->
+                <!-- name -->
                 <div class="row">
                   <div class="col-sm-3">
-                    <label for="email" class="form-control text-center c2">Email</label>
+                    <label for="clientName" class="form-control text-center c2">Nome</label>
                   </div>
                   <div class="col-sm-9">
-                    <input type="email" class="form-control" name="email" id="email"
-                    value="<% if(user) { %><%=user.email%><% } %>">
+                    <input type="text" class="form-control" name="clientName" id="clientName">
                   </div>
                 </div>
                 <hr>
                 <!-- phone -->
                 <div class="row">
                   <div class="col-sm-3">
-                    <label for="pwd" class="form-control text-center c2">Senha</label>
+                    <label for="phone" class="form-control text-center c2">Telefone / Whatsapp</label>
                   </div>
                   <div class="col-sm-9">
-                    <input type="password" class="form-control" name="pwd"
-                    value="<% if(user) { %><%=user.pwd%><% } %>">
+                    <input type="tel" class="form-control" name="phone"
+                    pattern="\(\d{2}\)\d{4}-\d{4}" placeholder="(xx)-xxxx-xxxx"
+                    title="Format: (XX)XXXX-XXXX"
+                    required>
                   </div>
                 </div>
                 <hr>
