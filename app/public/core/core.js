@@ -21,6 +21,25 @@ var Helper = {
   comeBack() {
     document.location.href='/';
   },  
+
+  getContainerCFHM() {
+    let containerCFHM = document.createElement('div');
+    containerCFHM.className = 'form-group';
+    let labelCFHM = document.createElement('label');
+    labelCFHM.htmlFor = 'changeForHowMuch';
+    labelCFHM.innerText = "Troco pra quanto?"
+    let inputCFHM = document.createElement('input');
+    inputCFHM.type = 'text';
+    inputCFHM.className = 'form-control';
+    inputCFHM.id = 'changeForHowMuch';
+    inputCFHM.name = 'changeForHowMuch';
+    inputCFHM.required = 'required';
+    inputCFHM.placeholder="Campo Obrogatório"
+    containerCFHM.appendChild(labelCFHM);
+    containerCFHM.appendChild(inputCFHM);
+    return containerCFHM;
+  },
+
   
 };
 
@@ -301,6 +320,18 @@ var Order = {
     }
         
   } ,
+
+  choosingPaymentMethod() {
+    let containerIsItMoney = document.getElementById('containerIsItMoney');
+    let paymentMethod = document.getElementById('paymentMethod').value;
+    if(paymentMethod == 'money') {
+      containerIsItMoney.innerText = null;
+      let containerChangeForHowMuch = Helper.getContainerCFHM();
+      containerIsItMoney.appendChild(containerChangeForHowMuch);
+    } else {
+      containerIsItMoney.innerText = null;
+    }
+  },
   
   paymentChoice(paymentMethod) {
     if(paymentMethod == 'money') {

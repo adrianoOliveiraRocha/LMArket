@@ -68,15 +68,36 @@
                     <label for="phone" class="form-control text-center c2">Telefone / Whatsapp</label>
                   </div>
                   <div class="col-sm-9">
-                    <input type="tel" class="form-control" name="phone"
-                    pattern="\(\d{2}\)\d{4}-\d{4}" placeholder="(xx)-xxxx-xxxx"
-                    title="Format: (XX)XXXX-XXXX"
-                    required>
+                    <input type="tel" class="form-control" name="phone" id="phone"
+                      onkeyup="Helper.fixPhone(this.value);" required>
                   </div>
                 </div>
                 <hr>
                 <hr>
-                <!-- phone -->
+                <!-- paymentMethod -->
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label for="paymentMethod" class="form-control text-center c2">Método de Pagamento</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <select id="paymentMethod" name="paymentMethod" 
+                    class="form-control" 
+                    onchange="Order.choosingPaymentMethod()" required>
+                      <option value="creditCard">Cartão de crédito</option>
+                      <option value="debitCard">Cartão de débito</option>
+                      <option value="pix">Pix</option>
+                      <option value="payedMarket">Mercado Pago</option>
+                      <option value="money">Dinheiro</option>
+                    </select>
+                  </div>
+                </div>
+                <hr>
+                <!-- containerIsItMoney -->
+                <div class="row" id="containerIsItMoney">
+                  
+                </div>
+                <hr>
+                
                 <div class="row">
                   <div class="col-sm-3">
                     <button type="button" class="add-cart-button form-control"
