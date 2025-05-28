@@ -23,21 +23,30 @@ var Helper = {
   },  
 
   getContainerCFHM() {
-    let containerCFHM = document.createElement('div');
-    containerCFHM.className = 'form-group';
-    let labelCFHM = document.createElement('label');
-    labelCFHM.htmlFor = 'changeForHowMuch';
-    labelCFHM.innerText = "Troco pra quanto?"
-    let inputCFHM = document.createElement('input');
-    inputCFHM.type = 'text';
-    inputCFHM.className = 'form-control';
-    inputCFHM.id = 'changeForHowMuch';
-    inputCFHM.name = 'changeForHowMuch';
-    inputCFHM.required = 'required';
-    inputCFHM.placeholder="Campo Obrogatório"
-    containerCFHM.appendChild(labelCFHM);
-    containerCFHM.appendChild(inputCFHM);
-    return containerCFHM;
+    let divContainerIsItMoney = document.getElementById('containerIsItMoney');
+    // first column
+    let col_sm_3 = document.createElement('div');
+    col_sm_3.className = 'col-sm-3';
+    //label
+    let label_form_control = document.createElement('label');
+    label_form_control.htmlFor = 'changeForHowMuch';
+    label_form_control.className = 'form-control text-center c2';
+    label_form_control.innerText = 'Troco pra quanto?';
+    col_sm_3.appendChild(label_form_control);
+    
+    let col_sm_9 = document.createElement('div');
+    col_sm_9.className = 'col-sm-9';
+    let inputChangeForHowMuch = document.createElement('input');
+    inputChangeForHowMuch.type = 'number';
+    inputChangeForHowMuch.className = 'form-control';
+    inputChangeForHowMuch.name = 'changeForHowMuch';
+    inputChangeForHowMuch.id = 'changeForHowMuch';
+    col_sm_9.appendChild(inputChangeForHowMuch);
+    
+    divContainerIsItMoney.append(col_sm_3);
+    divContainerIsItMoney.append(col_sm_9);
+
+    return divContainerIsItMoney;
   },
 
   
@@ -326,8 +335,8 @@ var Order = {
     let paymentMethod = document.getElementById('paymentMethod').value;
     if(paymentMethod == 'money') {
       containerIsItMoney.innerText = null;
-      let containerChangeForHowMuch = Helper.getContainerCFHM();
-      containerIsItMoney.appendChild(containerChangeForHowMuch);
+      // let divContainerIsItMoney = Helper.getContainerCFHM();
+      containerIsItMoney.appendChild(Helper.getContainerCFHM());
     } else {
       containerIsItMoney.innerText = null;
     }
