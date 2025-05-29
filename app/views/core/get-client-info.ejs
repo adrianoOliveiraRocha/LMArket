@@ -62,6 +62,40 @@
                   </div>
                 </div>
                 <hr>
+
+                <!-- street -->
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label for="street" class="form-control text-center c2">Rua</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" name="street" id="street">
+                  </div>
+                </div>
+                <hr>
+
+                <!-- number -->
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label for="number" class="form-control text-center c2">Número</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="number" class="form-control" name="number" id="number">
+                  </div>
+                </div>
+                <hr>
+
+                <!-- reference point -->
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label for="referencePoint" class="form-control text-center c2">Ponto de Referência</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" name="referencePoint" id="referencePoint">
+                  </div>
+                </div>
+                <hr>
+
                 <!-- phone -->
                 <div class="row">
                   <div class="col-sm-3">
@@ -73,7 +107,22 @@
                   </div>
                 </div>
                 <hr>
+
+                <!-- neighborhood -->
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label for="neighborhood" class="form-control text-center c2">Bairro</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <select class="form-control" name="neighborhood" id="neighborhood">
+                      <% for(nh of neighborhoods) { %>
+                        <option value="<%=nh.id%>" class="form-control"><%=nh.name%></option>
+                      <% } %>
+                    </select>
+                  </div>
+                </div>
                 <hr>
+
                 <!-- paymentMethod -->
                 <div class="row">
                   <div class="col-sm-3">
@@ -94,12 +143,7 @@
                 <hr>
                 <!-- containerIsItMoney -->
                 <div class="row" id="containerIsItMoney">
-                  <!-- <div class="col-sm-3">
-                    <label for="changeForHowMuch" class="form-control text-center c2">Troco pra quanto?</label>
-                  </div>
-                  <div class="col-sm-9">
-                    <input type="number" class="form-control" name="changeForHowMuch" id="changeForHowMuch">
-                  </div> -->
+                  
                 </div>
                 <hr>
                 

@@ -341,41 +341,6 @@ var Order = {
       containerIsItMoney.innerText = null;
     }
   },
-  
-  paymentChoice(paymentMethod) {
-    if(paymentMethod == 'money') {
-      var htmlContent = '<div class="row">'
-        +'<div class="col-sm-3">'
-          +'<label for="neighborhood" class="form-control text-center c2">Dinheiro R$</label>'
-        +'</div>'
-        +'<div class="col-sm-9">'
-          +'<input type="text" class="form-control" name="money" id="money" min="0"'
-            +'placeholder="Troco para quanto?">'
-            +'<i class="text-danger" style="font-size: 15px;">Considere a taxa de entrega</i>'
-        +'</div>'
-      +'</div>'
-      +'<hr>';  
-      document.getElementById('setPaymentMethod').innerHTML=htmlContent;
-    } else if(paymentMethod == 'card') {
-      var htmlContent = '<div class="row">'
-        +'<div class="col-sm-3">'
-          +'<label for="neighborhood" class="form-control text-center c2">Cartão</label>'
-        +'</div>'
-        +'<div class="col-sm-9">'
-          +'<select name="creditCard" id="creditCard" class="form-control">'
-            +'<option value="Visa">Visa</option>'
-            +'<option value="Mastercard">Mastercard</option>'
-            +'<option value="American Express">American Express</option>'
-            +'<option value="Diners">Diners</option>'
-            +'<option value="Hipercard">Hipercard</option>'
-            +'<option value="Aura">Aura</option>'
-            +'<option value="Elo">Elo</option>'
-          +'</select>'
-        +'</div>'
-      +'</div><hr>';
-      document.getElementById('setPaymentMethod').innerHTML=htmlContent;
-    }
-  }
 };
 
 var Message = {

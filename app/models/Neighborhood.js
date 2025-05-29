@@ -10,7 +10,17 @@ const Neighborhood = {
   },
 
   showAll(callback) {
-    let query = 'select * from neighborhood where activated = 1'
+    let query = 'select * from neighborhood where activated = 1';
+    console.log(query);
+    
+    this.connect.query(query, callback)
+  },
+
+  orderChoose(userId, callback) {
+    let query = `select id, name, delivery_fee from neighborhood 
+    where activated = 1 and user = ${userId}`;
+    console.log(query);
+    
     this.connect.query(query, callback)
   },
 

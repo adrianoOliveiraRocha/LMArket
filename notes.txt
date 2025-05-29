@@ -1,5 +1,5 @@
 MySQL
-- sudo mysqldump --databases lMarket > lMarket.sql
+- sudo mysqldump --databases lMarket > lMarket.sql;
 - source lMarket.sql
 - ALTER TABLE `vm-tableName` AUTO_INCREMENT = 1;
 

@@ -256,12 +256,8 @@ module.exports.searchProduct = function(req, res) {
 module.exports.getClientInfo = function(req, res) {
   /*
   infos of the client I need get
-  client name
-  payment method (
-    if money get money and rest
-  )
-  address {neighborhood, street, number}
-  phone
+  
+  
   reference point
 
   keep order, each intemOrder and delivery
@@ -269,8 +265,20 @@ module.exports.getClientInfo = function(req, res) {
 
   */
   req.session.car = req.body;
-  res.render('core/get-client-info.ejs');
-
+  const Neighborhood = require('./../models/Neighborhood');
+  Neighborhood.orderChoose(req.session.code, (error, neighborhoods) => {
+    if(error) {
+      let errorMessage = error.sqlMessage + "Por favor! "
+        + "entre em contato com o desenvolvedor";
+      res.render('core/error.ejs', { errorMessage });
+    } else {
+      for(nbh of neighborhoods) {
+        console.log(nbh.name, nbh.delivery_fee);
+      }
+      res.render('core/get-client-info.ejs', {neighborhoods});
+    }
+  })
+  
 }
 
 module.exports.orderLogin = function(req, res) {
