@@ -1,4 +1,6 @@
-var Helper = {
+'use strict'
+
+const Helper = {
   fixPhone(phone) {
     phone = phone.replace('(', '').replace(')','');
     if(phone.length == 2) {
@@ -25,6 +27,9 @@ var Helper = {
   getContainerCFHM() {
     let divContainerIsItMoney = document.getElementById('containerIsItMoney');
     // first column
+    let mainDiv = document.createElement('div');
+    mainDiv.className = 'row';
+    
     let col_sm_3 = document.createElement('div');
     col_sm_3.className = 'col-sm-3';
     //label
@@ -43,8 +48,13 @@ var Helper = {
     inputChangeForHowMuch.id = 'changeForHowMuch';
     col_sm_9.appendChild(inputChangeForHowMuch);
     
-    divContainerIsItMoney.append(col_sm_3);
-    divContainerIsItMoney.append(col_sm_9);
+    mainDiv.append(col_sm_3);
+    mainDiv.append(col_sm_9);
+
+    divContainerIsItMoney.append(mainDiv);
+
+    let hr = document.createElement('hr');
+    divContainerIsItMoney.append(hr);
 
     return divContainerIsItMoney;
   },
@@ -67,9 +77,9 @@ function simpleGetAjax(url) {
   xhr.send();
 }
 
-function simplePostAjax(url=null, form=null) {
+function simplePostAjax(variableContent, form) {
   var xhr = new XMLHttpRequest();
-  var formData = new FormData(form)
+  var formData = new FormData(form);
 
   xhr.onreadystatechange = function() {
     if(xhr.readyState == 4 && xhr.status == 200) {
@@ -83,7 +93,7 @@ function simplePostAjax(url=null, form=null) {
   xhr.send(formData);
 }
 
-ShopingCart = {
+const ShopingCart = {
   insertProduct: function(id) {
     var name = document.getElementById('name_' + id).value;
     var price = document.getElementById('price_' + id).value;
@@ -274,61 +284,17 @@ ShopingCart = {
   
 }
 
-var Order = {
+const Order = {
   orderLogin() {
     var form = document.getElementById('getClientInfoForm');
     simplePostAjax(null, form);      
   },
 
   sendOrder() {
-    var useMyAddress = document.getElementById('useMyAddress').checked;
-    var mistakes = document.getElementById('mistakes');
-    var errors = [];
-        
-    if(!useMyAddress) {
-      var street = document.getElementById('street');
-      var _number = document.getElementById('_number');
-      var neighborhood = document.getElementById('neighborhood');
-      
-      if(street.value == '') {
-        street.style.borderColor = "red";
-        errors.push(" Por favor, preencha o campo Rua.");
-      }
-
-      if(_number.value == '') {
-        _number.style.borderColor = "red";
-        errors.push(" Por favor, preencha o campo Número.");
-      }
-
-      if(neighborhood.value == 'null') {
-        neighborhood.style.borderColor = "red";
-        errors.push(" Por favor, escolha um bairro.");
-      }      
-      
-    }
-
-    if(errors.length == 0) {
-      sessionStorage.clear();
-      var formDeliveryData = document.getElementById('formDelivaryData');
-      formDeliveryData.action = '/send-order';
-      console.log(formDeliveryData);
-      formDeliveryData.submit();
-    } else {
-
-      var errorMessage = '<div class="alert alert-danger alert-dismissible">';
-      +'<button type="button" class="close" data-dismiss="alert">&times;</button>';
-           
-      errors.forEach(function(error) {
-        errorMessage += "<p>" + error  +"</p>";
-      });
-      errorMessage += '</div>';
-      mistakes.innerHTML = errorMessage;
-      alert("Por favor, preencha todos os campos. "
-      +"Você pode usar o endereço cadastrado no seu perfil ou enviar outro "
-      +" endereço");
-    }
-        
-  } ,
+    let variableContent = document.getElementById('variableContent');
+    const sendOrderForm = document.getElementById('sendOrderForm');
+    simplePostAjax(variableContent, sendOrderForm);
+  },
 
   choosingPaymentMethod() {
     let containerIsItMoney = document.getElementById('containerIsItMoney');
@@ -343,7 +309,7 @@ var Order = {
   },
 };
 
-var Message = {
+const Message = {
   sendMessage: function(event) {
     event.preventDefault();
     var name = document.getElementById('name');
@@ -384,7 +350,7 @@ var Message = {
   }
 }
 
-var User = {
+const User = {
   isitLoged: function(loged) {
     if(loged === 'true') {
       var form = document.getElementById('getClientInfoForm');
@@ -393,7 +359,7 @@ var User = {
   }
 }
 
-var Manual = (function() {
+const Manual = (function() {
   return {
     
     getContent(contentId) {

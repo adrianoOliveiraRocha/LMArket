@@ -254,17 +254,7 @@ module.exports.searchProduct = function(req, res) {
 }
 
 module.exports.getClientInfo = function(req, res) {
-  /*
-  infos of the client I need get
-  
-  
-  reference point
-
-  keep order, each intemOrder and delivery
-  send to user via whatsapp
-
-  */
-  req.session.car = req.body;
+ req.session.car = req.body;
   const Neighborhood = require('./../models/Neighborhood');
   Neighborhood.orderChoose(req.session.code, (error, neighborhoods) => {
     if(error) {
@@ -272,64 +262,17 @@ module.exports.getClientInfo = function(req, res) {
         + "entre em contato com o desenvolvedor";
       res.render('core/error.ejs', { errorMessage });
     } else {
-      for(nbh of neighborhoods) {
-        console.log(nbh.name, nbh.delivery_fee);
-      }
       res.render('core/get-client-info.ejs', {neighborhoods});
     }
   })
   
 }
 
-module.exports.orderLogin = function(req, res) {
-  var data = req.body;
-
-  async function userVerify() {
-    const UserFactory = require('./../models/UserFactory');
-    const factory = new UserFactory();
-    var user = factory.createUser(0);
-    return new Promise((resolve, reject) => {
-      user.verify(data, (error, result) => {
-        if(error) {
-          reject(error);
-        } else {
-          Object.keys(result).length > 0
-          ? resolve(result[0])
-          : reject("Usuário não encontrado");
-        }
-      });
-    });
-  }
-
-  async function getNeihborhood() {
-    const Neighborhood = require('./../models/Neighborhood');
-    return new Promise(function(resolve, reject) {
-      Neighborhood.getActives(function(error, neighborhoods) {
-        error ? reject(error) : resolve(neighborhoods);
-      })
-    });
-  }
-
-  Promise.all([userVerify(), getNeihborhood()])
-    .then(function([user, neighborhoods]) {
-      req.session.user = user;
-      res.render('core/send-order.ejs', {user, neighborhoods});
-    })
-    .catch(function(error) {
-      res.send(`
-      <div class="alert alert-danger">${error}</div>
-      <a class="btn btn-warning" href="/">
-      Voltar
-      </a>
-      </button>
-      `);
-    });
-
-}
-
 module.exports.sendOrder = function(req, res) {
+  console.log('sendOrder control');
   var deliveryInfo = req.body;
-
+  res.json({deliveryInfo});
+  /**
   var address = {};
   if(!deliveryInfo.useMyAddress) {
     address.useMyAddress = true;
@@ -386,6 +329,7 @@ module.exports.sendOrder = function(req, res) {
       + "Erro: " + error
     });
   })
+  */
 }
 
 module.exports.sendMessage = function(req, res) {

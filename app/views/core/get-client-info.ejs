@@ -50,15 +50,16 @@
 
             <div class="card-body" id="variableContent">
 
-              <form class="form" action="/send-client-infos" 
-                method="post" id="getClientInfoForm">
+              <form class="form" action="/send-order" 
+                method="post" id="sendOrderForm">
                 <!-- name -->
                 <div class="row">
                   <div class="col-sm-3">
                     <label for="clientName" class="form-control text-center c2">Nome</label>
                   </div>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="clientName" id="clientName">
+                    <input type="text" class="form-control" 
+                    name="clientName" id="clientName" required>
                   </div>
                 </div>
                 <hr>
@@ -69,7 +70,8 @@
                     <label for="street" class="form-control text-center c2">Rua</label>
                   </div>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" name="street" id="street">
+                    <input type="text" class="form-control" name="street" 
+                    id="street" required>
                   </div>
                 </div>
                 <hr>
@@ -102,8 +104,9 @@
                     <label for="phone" class="form-control text-center c2">Telefone / Whatsapp</label>
                   </div>
                   <div class="col-sm-9">
-                    <input type="tel" class="form-control" name="phone" id="phone"
-                      onkeyup="Helper.fixPhone(this.value);" required>
+                    <input type="tel" class="form-control" name="phone" 
+                    id="phone" required 
+                    onkeyup="Helper.fixPhone(this.value);">
                   </div>
                 </div>
                 <hr>
@@ -142,36 +145,20 @@
                 </div>
                 <hr>
                 <!-- containerIsItMoney -->
-                <div class="row" id="containerIsItMoney">
+                <div id="containerIsItMoney">
                   
                 </div>
-                <hr>
                 
                 <div class="row">
                   <div class="col-sm-3">
                     <button type="button" class="add-cart-button form-control"
-                      name="sendMessage" onclick="Order.orderLogin();"
-                      id="isItLoged">
-                      Logar-se
-                    </button>
-                  </div>
-                  <div class="col-sm-3">
-                    <button type="button" class="add-cart-button form-control"
-                      name="sendMessage" onclick="return window.location.href='/register'">
-                      Criar Minha Conta
-                    </button>
-                  </div>
-                  <div class="col-sm-3">
-                    <button type="button" class="add-cart-button form-control"
-                      name="sendMessage" 
-                      onclick="return window.location.href='/';">
-                      Voltar 
+                      name="sendMessage" onclick="Order.sendOrder();">
+                      Enviar
                     </button>
                   </div>
                 </div>
                 
               </form>
-
 
             </div>
 
