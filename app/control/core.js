@@ -271,6 +271,7 @@ module.exports.getClientInfo = function(req, res) {
 module.exports.sendOrder = function(req, res) {
   console.log('sendOrder control');
   var deliveryInfo = req.body;
+  console.log(deliveryInfo);
   res.json({deliveryInfo});
   /**
   var address = {};

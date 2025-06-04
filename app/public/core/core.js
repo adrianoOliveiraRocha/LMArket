@@ -26,10 +26,10 @@ const Helper = {
 
   getContainerCFHM() {
     let divContainerIsItMoney = document.getElementById('containerIsItMoney');
-    // first column
+    
     let mainDiv = document.createElement('div');
     mainDiv.className = 'row';
-    
+    // first column
     let col_sm_3 = document.createElement('div');
     col_sm_3.className = 'col-sm-3';
     //label
@@ -99,7 +99,7 @@ const ShopingCart = {
     var price = document.getElementById('price_' + id).value;
     var stock = document.getElementById('stock_' + id).value;
     var stockControl = document.getElementById('stockControl_' + id).value;
-    data = {
+    let data = {
       name: name,
       price: price,
       stock: stock,
@@ -291,9 +291,34 @@ const Order = {
   },
 
   sendOrder() {
-    let variableContent = document.getElementById('variableContent');
-    const sendOrderForm = document.getElementById('sendOrderForm');
-    simplePostAjax(variableContent, sendOrderForm);
+    let errorsContainer = document.getElementById('errorsContainer');
+    errorsContainer.innerHTML = '';
+    // errors
+    let clientName = document.getElementById('clientName');
+    let street = document.getElementById('street');
+    let phone = document.getElementById('phone');
+    let errors = "";
+    if(!clientName.value) {
+      errors += "Por favor! digite seu nome";
+    }
+    if(!street.value) {
+      errors += "\nPor favor! digite seu logradouro (Rua / Avenida / Travessa...)";
+    }
+    if(!phone.value) {
+      errors += "\nPor favor! digite seu telefone / whatsapp";
+    }
+
+    if(errors.length > 0) {
+      errorsContainer = document.getElementById('errorsContainer');
+      let mainErrorDiv = document.createElement('div');
+      mainErrorDiv.className = '.container-fluid p-5 my-5 bg-danger text-white text-center border';
+      mainErrorDiv.innerText = errors;
+      errorsContainer.append(mainErrorDiv);
+    } else {
+      let variableContent = document.getElementById('variableContent');
+      const sendOrderForm = document.getElementById('sendOrderForm');
+      simplePostAjax(variableContent, sendOrderForm);
+    }
   },
 
   choosingPaymentMethod() {
