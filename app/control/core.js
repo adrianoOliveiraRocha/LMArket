@@ -254,7 +254,7 @@ module.exports.searchProduct = function(req, res) {
 }
 
 module.exports.getClientInfo = function(req, res) {
- req.session.car = req.body;
+  req.session.car = req.body;
   const Neighborhood = require('./../models/Neighborhood');
   Neighborhood.orderChoose(req.session.code, (error, neighborhoods) => {
     if(error) {
@@ -272,29 +272,18 @@ module.exports.sendOrder = function(req, res) {
   console.log('sendOrder control');
   var deliveryInfo = req.body;
   console.log(deliveryInfo);
-  res.json({deliveryInfo});
-  /**
-  var address = {};
-  if(!deliveryInfo.useMyAddress) {
-    address.useMyAddress = true;
-    address.street = deliveryInfo.street,
-    address._number = deliveryInfo._number;
-    address.neighborhood = deliveryInfo.neighborhood;
-    address.complement = deliveryInfo.complement;
-  } else {
-    address.useMyAddress = false;
-    address.street = req.session.user.street,
-    address._number = req.session.user._number;
-    address.neighborhood = req.session.user.neighborhood;
-    address.complement = req.session.user.complement;
-  }
+  console.log(req.session.car);
+  console.log("\n");
+  
   const Order = require('./../models/Order');
   const Product = require('./../models/Product');
 
   var items = Product.getProductsCart(req.session.car);
-
-  var order = {
-    user: req.session.user.id,
+  res.json({items});
+  /**
+  data needed in the order
+  let order = {
+    user: req.session.code,
     total: Order.calculateTotal(items),
     money: typeof deliveryInfo.money == 'undefined' ? 0.0 : deliveryInfo.money,
     creditCard: deliveryInfo.creditCard,

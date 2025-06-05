@@ -138,7 +138,6 @@ const ShopingCart = {
   },
 
   cancelOrder: function(event) {
-    event.preventDefault();
     sessionStorage.clear();
     document.getElementById('productsCounter').innerHTML = 0;
     window.location.href='/';
@@ -299,16 +298,17 @@ const Order = {
     let phone = document.getElementById('phone');
     let errors = "";
     if(!clientName.value) {
-      errors += "Por favor! digite seu nome";
+      errors += "Por favor! digite seu nome.";
     }
     if(!street.value) {
-      errors += "\nPor favor! digite seu logradouro (Rua / Avenida / Travessa...)";
+      errors += "\nPor favor! digite seu logradouro (Rua / Avenida / Travessa).";
     }
     if(!phone.value) {
-      errors += "\nPor favor! digite seu telefone / whatsapp";
+      errors += "\nPor favor! digite seu telefone / whatsapp.";
     }
 
     if(errors.length > 0) {
+      alert("Por favor! verifique a mensagem de erro a baixo!");
       errorsContainer = document.getElementById('errorsContainer');
       let mainErrorDiv = document.createElement('div');
       mainErrorDiv.className = '.container-fluid p-5 my-5 bg-danger text-white text-center border';
