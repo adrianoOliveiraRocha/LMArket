@@ -269,27 +269,46 @@ module.exports.getClientInfo = function(req, res) {
 }
 
 module.exports.sendOrder = function(req, res) {
-  console.log('sendOrder control');
-  var deliveryInfo = req.body;
+  /*
+  received object:
+  Order: {
+    clientName: 'Adriano Oliveira',
+    street: 'RUA PROJETADA 2',
+    number: '110',
+    referencePoint: '',
+    phone: '85999473839',
+    neighborhood: '1-Meireles-13.55',
+    paymentMethod: 'money',
+    changeForHowMuch: '100'
+  }
+  */
+  let deliveryInfo = req.body;
   console.log(deliveryInfo);
-  console.log(req.session.car);
-  console.log("\n");
   
   const Order = require('./../models/Order');
   const Product = require('./../models/Product');
 
   var items = Product.getProductsCart(req.session.car);
-  res.json({items});
-  /**
-  data needed in the order
+    
   let order = {
-    user: req.session.code,
-    total: Order.calculateTotal(items),
-    money: typeof deliveryInfo.money == 'undefined' ? 0.0 : deliveryInfo.money,
-    creditCard: deliveryInfo.creditCard,
-    address: address
+    user: req.session.code, // owrn of market
+    clientName: deliveryInfo.clientName,
+    clientPhone: deliveryInfo.clientPhone,
+    street: deliveryInfo.street,
+    _number: deliveryInfo.number,
+    referencePoint: deliveryInfo.referencePoint,
+    paymentMethod: deliveryInfo.paymentMethod,  
+    changeForHowMuch: deliveryInfo.changeForHowMuch
   };
 
+  if(order.paymentMethod == 'money') {
+    order.changeForHowMuch = deliveryInfo.changeForHowMuch;
+  }
+  // Attention, yuo need alter the database table _order
+  order = Order.resolveNBH(order);
+  res.json({items, order});
+  
+  /*
   async function createOrder() {
     return new Promise(function(resolve, reject) {
       Order.createOrder(order, function(error, result) {

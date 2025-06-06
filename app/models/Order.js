@@ -10,9 +10,13 @@ const Order = {
     return total;
   },
 
+  resolveNBH(order) {
+    return order;
+  },
+
   createOrder(order, callback) {      
     var query = `
-      insert into _order (user, total, money, creditcard, street, _number, neighborhood)
+      insert into _order (user, total, street, _number, neighborhood, paymentMethod)
       values(${parseInt(order.user)}, ${parseFloat(order.total)}, 
       ${parseFloat(order.money)}, '${order.creditCard}', '${order.address.street}', 
       '${order.address._number}', 
