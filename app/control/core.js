@@ -283,8 +283,7 @@ module.exports.sendOrder = function(req, res) {
   }
   */
   let deliveryInfo = req.body;
-  console.log(deliveryInfo);
-  
+    
   const Order = require('./../models/Order');
   const Product = require('./../models/Product');
 
@@ -292,6 +291,7 @@ module.exports.sendOrder = function(req, res) {
     
   let order = {
     user: req.session.code, // owrn of market
+    total: Order.calculateTotal(items),
     clientName: deliveryInfo.clientName,
     clientPhone: deliveryInfo.clientPhone,
     street: deliveryInfo.street,
@@ -304,9 +304,11 @@ module.exports.sendOrder = function(req, res) {
   if(order.paymentMethod == 'money') {
     order.changeForHowMuch = deliveryInfo.changeForHowMuch;
   }
-  // Attention, yuo need alter the database table _order
+  // Attention, you need alter the database table _order
   order = Order.resolveNBH(order);
-  res.json({items, order});
+  console.log(order)
+  // console.log(items);
+  res.json({order});
   
   /*
   async function createOrder() {

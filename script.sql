@@ -21,3 +21,7 @@
 -- ADD changeForHowMuch decimal(5,2)
 -- default 0.0
 -- after money;
+
+ALTER TABLE _order DROP COLUMN money;
+
+ALTER TABLE _order ADD COLUMN paymentMethod varchar(150) not null;

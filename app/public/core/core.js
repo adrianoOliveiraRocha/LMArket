@@ -219,11 +219,11 @@ const ShopingCart = {
       }
       
       var strPrice = document.getElementById('price_' + itemId).value;
-      price = (parseFloat(strPrice.replace(',', '.'))).toFixed(2);
+      let price = (parseFloat(strPrice.replace(',', '.'))).toFixed(2);
       var newSubTotal = (quantity * price).toFixed(2);
       document.getElementById('subTotal_' + itemId).value = newSubTotal;      
       item.subTotal = newSubTotal;
-      data = {
+      let data = {
         name: document.getElementById('name_' + itemId).value,
         price: price,
         stock: item.stock,
@@ -317,6 +317,7 @@ const Order = {
     } else {
       let variableContent = document.getElementById('variableContent');
       const sendOrderForm = document.getElementById('sendOrderForm');
+      console.log(sendOrderForm);
       simplePostAjax(variableContent, sendOrderForm);
     }
   },
