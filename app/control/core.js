@@ -299,23 +299,26 @@ module.exports.sendOrder = function(req, res) {
     order.changeForHowMuch = deliveryInfo.changeForHowMuch;
   }
   
-  order = Order.resolveNBH(order);
-
-  Order.createOrder(order, (response) => {
-    res.json({response});
-  })
-  
-  
-  
-  /*
   async function createOrder() {
     return new Promise(function(resolve, reject) {
-      Order.createOrder(order, function(error, result) {
-        error ? reject(error) : resolve(result.insertId);
-      });
+      Order.createOrder(order, (error, result) => {
+        error ? reject(error) : resolve(result);   
+      })
     });
   };
 
+  createOrder()
+    .then((result) => {
+      console.log("TESTS: " + result);
+      res.json({result});
+    })
+    .catch((error) => {
+      let errorMessage = error.sqlMessage + "Por favor! "
+        + "entre em contato com o desenvolvedor";
+      res.render('core/error.ejs', { errorMessage });
+    })
+
+  /*
   async function createItems() {
     const OrderItem = require('../models/OrderItem');
     var orderId = await createOrder();

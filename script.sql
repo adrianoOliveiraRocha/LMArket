@@ -25,3 +25,11 @@
 ALTER TABLE _order DROP COLUMN money;
 
 ALTER TABLE _order ADD COLUMN paymentMethod varchar(150) not null;
+
+insert into _order (user, total, street, _number, neighborhood, 
+clientName, clientPhone, referencePoint, paymentMethod)
+values(1, 10.06,
+'RUA PROJETADA 2', '110', 
+1, 'Adriano Oliveira',
+'Posto de Saúde do Barrocão', 'creditCard');
+

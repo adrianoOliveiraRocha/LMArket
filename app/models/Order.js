@@ -10,44 +10,29 @@ const Order = {
     return total;
   },
 
-  resolveNBH(order) {
-    return order;
-  },
-
   createOrder(order, callback) {  
-
-    /*
-    {"order":{"user":"1","total":9.06,"clientName":"Adriano Oliveira",
-    "clientPhone":"85999473839","street":"RUA PROJETADA 2","_number":"110",
-    "referencePoint":"Posto de Saúde do Barrocão","neighborhoodId":"5",
-    "neighborhoodName":"Messejana","neighborhoodDeliveryFee":"3",
-    "paymentMethod":"money","changeForHowMuch":"50"}}
-    */
-
     let query = ``;
     if(order.changeForHowMuch) {
       query = `
       insert into _order (user, total, street, _number, neighborhood, 
       clientName, clientPhone, referencePoint, paymentMethod, changeForHowMuch)
-      values(${parseInt(order.user)}, ${parseFloat(order.total)},
-      '${order.street})', '${order._number}', 
+      values(${parseInt(order.user)}, ${parseFloat(order.total).toFixed(2)},
+      '${order.street}', '${order._number}', 
       ${parseInt(order.neighborhoodId)}, '${order.clientName}',
-      '${order.referencePoint}', '${order.paymentMethod}',
-      ${parseFloat(order.changeForHowMuch)};
-      SELECT LAST_INSERT_ID() AS last_id;`;
+      '${order.clientPhone}','${order.referencePoint}', '${order.paymentMethod}',
+      ${parseFloat(order.changeForHowMuch)});`;
     } else {
       query = `
       insert into _order (user, total, street, _number, neighborhood, 
       clientName, clientPhone, referencePoint, paymentMethod)
-      values(${parseInt(order.user)}, ${parseFloat(order.total)},
-      '${order.street})', '${order._number}', 
+      values(${parseInt(order.user)}, ${parseFloat(order.total).toFixed(2)},
+      '${order.street}', '${order._number}', 
       ${parseInt(order.neighborhoodId)}, '${order.clientName}',
-      '${order.referencePoint}', '${order.paymentMethod}';
-      SELECT LAST_INSERT_ID() AS last_id;`;
+      '${order.clientPhone}', '${order.referencePoint}', '${order.paymentMethod}');`;
     }
-    callback(query);
-    
-    // this.connect.query(query, callback);
+
+    this.connect.query(query, callback);
+
   },
 
   getAllOrders(userId, callback) {
