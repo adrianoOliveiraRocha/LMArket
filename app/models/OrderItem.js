@@ -10,10 +10,11 @@ const OrderItem = {
       values(${parseInt(orderId)}, ${parseInt(item.id)}, ${parseFloat(item.price)}, 
       ${parseInt(item.quantity)}, ${parseFloat(item.subTotal)}); `;
       if(item.stockControl == 1) {
-        query += `update product set quantity = quantity - 1 where id = ${parseInt(item.id)}; `;
+        query += `update product set quantity = quantity - ${parseInt(item.quantity)} 
+        where id = ${parseInt(item.id)}; `;
       }
     });
-    
+    console.log(query);
     this.connect.query(query, callback);
   },
 

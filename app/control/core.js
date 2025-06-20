@@ -275,7 +275,7 @@ module.exports.sendOrder = function(req, res) {
   const Order = require('./../models/Order');
   const Product = require('./../models/Product');
 
-  var items = Product.getProductsCart(req.session.car);
+  var items = Product.getProductsCart(req.session.car); // array of objects
 
   let nbhDetails = deliveryInfo.neighborhood.split('-');
 
@@ -302,28 +302,16 @@ module.exports.sendOrder = function(req, res) {
   async function createOrder() {
     return new Promise(function(resolve, reject) {
       Order.createOrder(order, (error, result) => {
-        error ? reject(error) : resolve(result);   
+        error ? reject(error) : resolve(result.insertId);   
       })
     });
   };
 
-  createOrder()
-    .then((result) => {
-      console.log("TESTS: " + result);
-      res.json({result});
-    })
-    .catch((error) => {
-      let errorMessage = error.sqlMessage + "Por favor! "
-        + "entre em contato com o desenvolvedor";
-      res.render('core/error.ejs', { errorMessage });
-    })
-
-  /*
   async function createItems() {
     const OrderItem = require('../models/OrderItem');
     var orderId = await createOrder();
     return new Promise(function(resolve, reject) {
-      OrderItem.insertItems(orderId, items, function(error, result) {
+      OrderItem.insertItems(orderId, items, (error, result) => {
         error ? reject(error) : resolve(result);
       })
     })
@@ -331,8 +319,9 @@ module.exports.sendOrder = function(req, res) {
 
   createItems()
     .then(function(result) {
-      req.session.message = "Seu pedido foi enviado com sucesso";
-      res.redirect('/user');
+      // all is done. Now, you must send a whatsapp message
+      // and redirect to rigth page
+      
     })
   .catch(function(error) {
     res.render('core/error.ejs', {
@@ -340,8 +329,10 @@ module.exports.sendOrder = function(req, res) {
       + "Erro: " + error
     });
   })
-  */
+  
 }
+
+
 
 module.exports.sendMessage = function(req, res) {
   var data = req.body;
@@ -360,6 +351,10 @@ module.exports.sendMessage = function(req, res) {
       });
     }
   });
+}
+
+module.exports.orderSended = (req, res) => {
+  // ../
 }
 
 module.exports.assetlinks = function(req, res) {
