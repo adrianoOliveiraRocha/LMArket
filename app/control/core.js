@@ -312,15 +312,30 @@ module.exports.sendOrder = function(req, res) {
     var orderId = await createOrder();
     return new Promise(function(resolve, reject) {
       OrderItem.insertItems(orderId, items, (error, result) => {
-        error ? reject(error) : resolve(result);
+        error ? reject(error) : resolve(true);
       })
     })
   }
 
+  async function sendToWhatsaap() {
+    let itemsOk = await createItems();
+    /*
+    The client has confirmed the order. Now, you need 
+    just create a link to whatasapp to send the order to the 
+    user (business).
+    Se how to create the whatsapp link with all text of the 
+    order and the items well organized below
+    https://github.com/adrianoOliveiraRocha/w3s/blob/b27f27a460fe9ffa92904029dd9ed16b9b00bb11/app/control/vm/menu.js#L171C9-L171C26
+    */
+    
+    if(itemsOk) { // send order to whatsapp
+
+    }
+  }
+
   createItems()
     .then(function(result) {
-      // all is done. Now, you must send a whatsapp message
-      // and redirect to rigth page
+      res.json({result});
       
     })
   .catch(function(error) {
@@ -351,10 +366,6 @@ module.exports.sendMessage = function(req, res) {
       });
     }
   });
-}
-
-module.exports.orderSended = (req, res) => {
-  // ../
 }
 
 module.exports.assetlinks = function(req, res) {

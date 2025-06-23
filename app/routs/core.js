@@ -55,9 +55,5 @@ module.exports = (app) => {
   app.get('/.well-known/assetlinks.json', function(req, res) {
     require('./../control/core').assetlinks(req, res);
   })
-
-  app.get('/order-sended', (req, res) => {
-    require('./../control/core').orderSended(req, res);
-  })
   
 }
