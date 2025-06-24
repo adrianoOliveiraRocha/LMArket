@@ -1,3 +1,21 @@
+**order informations:
+-clientName
+-clientPhone
+-neighborhood
+-street    
+-_number
+-referencePoint
+-paymentMethod
+
+**item informations
+-name
+-quantity
+-price
+-subtotal
+
+total
+
+
 MySQL
 - sudo mysqldump --databases lMarket > lMarket.sql;
 - source lMarket.sql

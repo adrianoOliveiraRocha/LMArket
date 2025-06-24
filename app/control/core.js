@@ -320,23 +320,63 @@ module.exports.sendOrder = function(req, res) {
   async function sendToWhatsaap() {
     let itemsOk = await createItems();
     /*
-    The client has confirmed the order. Now, you need 
-    just create a link to whatasapp to send the order to the 
-    user (business).
-    Se how to create the whatsapp link with all text of the 
-    order and the items well organized below
     https://github.com/adrianoOliveiraRocha/w3s/blob/b27f27a460fe9ffa92904029dd9ed16b9b00bb11/app/control/vm/menu.js#L171C9-L171C26
-    */
+    **order informations:
+    -clientName
+    -clientPhone
+    -neighborhood
+    -street    
+    -_number
+    -referencePoint
+    -paymentMethod
     
-    if(itemsOk) { // send order to whatsapp
+    **item informations
+    -name
+    -quantity
+    -price
+    -subtotal
+    
+    total
+    
+    */
 
-    }
+    return new Promise((resolve, reject) => {
+      /*
+      {
+
+        "phone":"5585999473839","order":
+        
+        //order object
+        {"user":"1","total":11.34,"clientName":"Adriano Oliveira",
+          "clientPhone":"85999473839","street":"RUA PROJETADA 2",
+          "_number":"110","referencePoint":"Posto de Saúde do Barrocão",
+          "neighborhoodId":"1","neighborhoodName":"Meireles",
+          "neighborhoodDeliveryFee":"13.55","paymentMethod":"creditCard"},
+        
+        //items object
+        "items":[
+          {"id":"6","name":"Tomate Carmem Kg","price":"6.78","stock":"28","quantity":"1","subTotal":"6.78","stockControl":"1"},
+          {"id":"5","name":"Milho Verde em Conserva Quero Lata 200g","price":"4.56","stock":"14","quantity":"1","subTotal":"4.56","stockControl":"1"}],
+        
+      }
+      */
+
+      if(itemsOk) { // send order to whatsapp
+        let strOrder = `*Cliente:* ${order.clientName}; `;
+        strOrder += `*Telefone:* ${order.clientPhone}; `; 
+        resolve(itemsOk) 
+      } else {
+        reject(false);
+      }
+    })
+    
+    
   }
 
-  createItems()
-    .then(function(result) {
-      res.json({result});
-      
+  sendToWhatsaap()
+    .then(function(result) { // receive strOrder
+      let phone = req.session.config.companyPhone;
+      res.json({phone, order, items});      
     })
   .catch(function(error) {
     res.render('core/error.ejs', {

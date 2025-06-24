@@ -14,7 +14,7 @@ const OrderItem = {
         where id = ${parseInt(item.id)}; `;
       }
     });
-    console.log(query);
+    
     this.connect.query(query, callback);
   },
 
