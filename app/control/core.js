@@ -318,6 +318,11 @@ module.exports.sendOrder = function(req, res) {
   }
 
   async function sendToWhatsaap() {
+    const coin = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+
     let itemsOk = await createItems();
     /*
     https://github.com/adrianoOliveiraRocha/w3s/blob/b27f27a460fe9ffa92904029dd9ed16b9b00bb11/app/control/vm/menu.js#L171C9-L171C26
@@ -364,7 +369,54 @@ module.exports.sendOrder = function(req, res) {
       if(itemsOk) { // send order to whatsapp
         let strOrder = `*Cliente:* ${order.clientName}; `;
         strOrder += `*Telefone:* ${order.clientPhone}; `; 
-        resolve(itemsOk) 
+        strOrder += `*Logradouro:* ${order.street}; `;
+        strOrder += `*Número:* ${order._number}; `;
+        strOrder += `*Ponte de Referência:* ${order.referencePoint}; `;
+        strOrder += `*Bairro:* ${order.neighborhoodName}; `;
+        strOrder += `*Taxa de Entrega:* ${coin.format(order.neighborhoodDeliveryFee)}; `;
+        // order informations
+        switch (order.paymentMethod) {
+          case 'creditCard':
+            strOrder += '*Forma de Pagamento:* Cartão de Crédito';
+            break;
+          case 'debitCard':
+            strOrder += '*Forma de Pagamento:* Cartão de Débito';
+            break;
+          case 'pix':
+            strOrder += '*Forma de Pagamento:* pix';
+            break;
+          case 'payedMarket':
+            strOrder += '*Forma de Pagamento:* Mercado Pago';
+            break;
+          case 'payedMarket':
+            strOrder += '*Forma de Pagamento:* Mercado Pago';
+            break;
+          default:
+            strOrder += `*Forma de Pagamento:* Dinheiro; `;
+            strOrder += `*Troco para :* ${coin.format(order.changeForHowMuch)}; `;
+            break;
+        }
+        // items informations
+        /*
+        [{"id":"10","name":"Sorvete de Chocolate e Creme Cremosíssimo Kibon 2 Litros",
+        "price":"15.8","stock":"100","quantity":"1","subTotal":"15.8",
+        "stockControl":"1"},
+        {"id":"4","name":"Kit de Fraldas Pampers XG Confort Sec Super - 174 Unidades",
+        "price":"13.45","stock":"100","quantity":"1","subTotal":"13.45",
+        "stockControl":"1"}]
+        */
+        let strItems = "";
+        Object.keys(items).map(key => {
+          strItems += `*Item: * ${items[key].name}; `;
+          strItems += `*Preço: * ${coin.format(items[key].price)}; `;
+          strItems += `*Quantidade: * ${items[key].quantity}; `;
+          strItems += `*Subtotal: * ${coin.format(items[key].subTotal)}; `;
+        });
+
+        strOrder += "*Pedido:*  "
+        strOrder += strItems;
+        strOrder += ` *Total: * ${coin.format(order.total)}`;
+        resolve(strOrder) 
       } else {
         reject(false);
       }
@@ -374,9 +426,9 @@ module.exports.sendOrder = function(req, res) {
   }
 
   sendToWhatsaap()
-    .then(function(result) { // receive strOrder
+    .then(function(strOrder) { // receive strOrder
       let phone = req.session.config.companyPhone;
-      res.json({phone, order, items});      
+      res.json({phone, strOrder});      
     })
   .catch(function(error) {
     res.render('core/error.ejs', {
