@@ -326,46 +326,12 @@ module.exports.sendOrder = function(req, res) {
     let itemsOk = await createItems();
     /*
     https://github.com/adrianoOliveiraRocha/w3s/blob/b27f27a460fe9ffa92904029dd9ed16b9b00bb11/app/control/vm/menu.js#L171C9-L171C26
-    **order informations:
-    -clientName
-    -clientPhone
-    -neighborhood
-    -street    
-    -_number
-    -referencePoint
-    -paymentMethod
-    
-    **item informations
-    -name
-    -quantity
-    -price
-    -subtotal
-    
-    total
-    
     */
 
     return new Promise((resolve, reject) => {
       /*
-      {
-
-        "phone":"5585999473839","order":
-        
-        //order object
-        {"user":"1","total":11.34,"clientName":"Adriano Oliveira",
-          "clientPhone":"85999473839","street":"RUA PROJETADA 2",
-          "_number":"110","referencePoint":"Posto de Saúde do Barrocão",
-          "neighborhoodId":"1","neighborhoodName":"Meireles",
-          "neighborhoodDeliveryFee":"13.55","paymentMethod":"creditCard"},
-        
-        //items object
-        "items":[
-          {"id":"6","name":"Tomate Carmem Kg","price":"6.78","stock":"28","quantity":"1","subTotal":"6.78","stockControl":"1"},
-          {"id":"5","name":"Milho Verde em Conserva Quero Lata 200g","price":"4.56","stock":"14","quantity":"1","subTotal":"4.56","stockControl":"1"}],
-        
-      }
+      Next: take out the parentesis in phone number (85)477551122
       */
-
       if(itemsOk) { // send order to whatsapp
         let strOrder = `*Cliente:* ${order.clientName}; `;
         strOrder += `*Telefone:* ${order.clientPhone}; `; 
@@ -396,39 +362,33 @@ module.exports.sendOrder = function(req, res) {
             strOrder += `*Troco para :* ${coin.format(order.changeForHowMuch)}; `;
             break;
         }
-        // items informations
-        /*
-        [{"id":"10","name":"Sorvete de Chocolate e Creme Cremosíssimo Kibon 2 Litros",
-        "price":"15.8","stock":"100","quantity":"1","subTotal":"15.8",
-        "stockControl":"1"},
-        {"id":"4","name":"Kit de Fraldas Pampers XG Confort Sec Super - 174 Unidades",
-        "price":"13.45","stock":"100","quantity":"1","subTotal":"13.45",
-        "stockControl":"1"}]
-        */
+        
         let strItems = "";
         Object.keys(items).map(key => {
-          strItems += `*Item: * ${items[key].name}; `;
-          strItems += `*Preço: * ${coin.format(items[key].price)}; `;
-          strItems += `*Quantidade: * ${items[key].quantity}; `;
-          strItems += `*Subtotal: * ${coin.format(items[key].subTotal)}; `;
+          if(key !== 'total') {
+            strItems += `  *Item ${parseInt(key)+1}:* ${items[key].name}; `;
+            strItems += `*Preço:* ${coin.format(items[key].price)}; `;
+            strItems += `*Quantidade:* ${items[key].quantity}; `;
+            strItems += `*Subtotal:* ${coin.format(items[key].subTotal)}; `;
+          }          
         });
 
-        strOrder += "*Pedido:*  "
+        strOrder += "    *Pedido:*"
         strOrder += strItems;
-        strOrder += ` *Total: * ${coin.format(order.total)}`;
+        strOrder += ` *Total:* ${coin.format(order.total)}`;
         resolve(strOrder) 
       } else {
         reject(false);
       }
     })
     
-    
   }
 
   sendToWhatsaap()
     .then(function(strOrder) { // receive strOrder
       let phone = req.session.config.companyPhone;
-      res.json({phone, strOrder});      
+      let link = require('../../app/../utils/getWhatsappLink')(phone, strOrder);
+      res.json({link});      
     })
   .catch(function(error) {
     res.render('core/error.ejs', {
