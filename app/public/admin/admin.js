@@ -525,9 +525,11 @@ var Order = (function() {
   }
 })();
 
+/*
 (function() {
   Order.nofitication();
   setInterval(function() {
     Order.nofitication();
   }, 10000);
 })();
+*/

@@ -334,7 +334,7 @@ module.exports.sendOrder = function(req, res) {
       */
       if(itemsOk) { // send order to whatsapp
         let strOrder = `*Cliente:* ${order.clientName}; `;
-        strOrder += `*Telefone:* ${order.clientPhone}; `; 
+        strOrder += `*Telefone:* ${order.clientPhone.replace(/[()]/g, '')}; `; 
         strOrder += `*Logradouro:* ${order.street}; `;
         strOrder += `*Número:* ${order._number}; `;
         strOrder += `*Ponte de Referência:* ${order.referencePoint}; `;
