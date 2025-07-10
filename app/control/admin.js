@@ -1,5 +1,4 @@
 module.exports.admin = (req, res) => {
-    
   if(req.session.user) {
     const Order = require('./../models/Order');
     Order.getNoFulfilledOrders(req.session.user.id, function(error, orders) {

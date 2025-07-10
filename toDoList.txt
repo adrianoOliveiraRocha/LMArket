@@ -1,3 +1,8 @@
+* Na pesquisa, produtos desativados não poder aparecer (No site)
+* Erro ao clicar em m pedido: 
+    Erro! Não foi possível recuperar o pedido. 
+    Error: ER_BAD_FIELD_ERROR: Unknown column '_order.money' in 'field list'
+
 1 - Do it multuser
 2 - Do Delivery point to whatsapp only
 3 - Run inside of w3s
