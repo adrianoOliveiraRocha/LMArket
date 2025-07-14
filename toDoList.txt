@@ -1,5 +1,4 @@
-* Na pesquisa, produtos desativados não poder aparecer (No site)
-* Erro ao clicar em m pedido: 
+* Erro ao clicar em um pedido: 
     Erro! Não foi possível recuperar o pedido. 
     Error: ER_BAD_FIELD_ERROR: Unknown column '_order.money' in 'field list'
 

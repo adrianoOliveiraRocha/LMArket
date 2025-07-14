@@ -111,7 +111,10 @@ const Product = (function() {
     },
 
     searchProduct(productName, callback) {
-      let query = `select * from product where name like '%${productName}%'`;
+      let query = `select * from product 
+      where name like '%${productName}%'
+      and activated = 1`;
+      console.log(query);
       connect.query(query, callback);
     },
 

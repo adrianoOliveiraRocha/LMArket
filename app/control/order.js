@@ -2,6 +2,7 @@ module.exports.allOrders = function(req, res) {
   const Order = require('./../models/Order');
   Order.getAllOrders(req.session.user.id, function(error, orders) {
     if(error) {
+      console.log(error)
       res.render('admin/error.ejs', {
         errorMessage: "Não foi possível recuperar os pedidos. " + error
       });

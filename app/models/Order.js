@@ -38,7 +38,8 @@ const Order = {
   getAllOrders(userId, callback) {
     let query = `select * from _order 
     where user = ${userId}
-    order by id`;
+    order by id;`;
+    console.log(query);
     this.connect.query(query, callback);
   },
 

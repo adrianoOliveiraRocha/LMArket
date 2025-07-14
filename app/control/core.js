@@ -235,19 +235,20 @@ module.exports.showCart = (req, res) => {
 }
 
 module.exports.searchProduct = function(req, res) {
-  const fs = require('fs');
-  var config = fs.readFileSync('app/public/json/config.json');
-  let companyPhone = JSON.parse(config).companyPhone;
   const Product = require('./../models/Product');
-
   Product.searchProduct(req.body.productName, function(error, result) {
     if(error) {
+      console.log(error);
       res.render('core/error.ejs', {
         errorMessage: "Não foi possível realizar a pesquisa",
       })
     } else {
       res.render('core/search-product.ejs',
-        { companyPhone,  products: result, user: req.session.user });
+        { 
+          companyPhone: req.session.config.companyPhone,  
+          products: result, 
+          user: req.session.user 
+        });
     }
   });
 
