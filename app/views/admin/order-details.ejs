@@ -1,4 +1,4 @@
-<input type="hidden" id="fontSize" value="<%=config.fontSize%>">
+<!-- <input type="hidden" id="fontSize" value="<%=config.fontSize%>"> -->
 <div class="card">
   <div class="card-header text-center"><h3>Detalhes do Pedido</h3></div>
   <div class="card-body card-block">
@@ -57,19 +57,13 @@
               </tr>
               <tr>
                 <td>Cliente</td>
-                <td id="clientName"><%=client.name%></td>
+                <td id="clientName"><%=order.clienteName%></td>
+              </tr> 
+              <tr>
+                <td>Método de Pagamento</td>
+                <td id="paymentMethod"><%=order.paymentMethod%></td>
               </tr>    
-              <%if(order.money == '0.0') { %>
-              <tr>
-                <td>Cartão</td>
-                <td id="creditCard"><%=order.creditcard%></td>
-              </tr>
-              <% } else { %>
-              <tr>
-                <td>Dinheiro</td>
-                <td id="money"><%=order.money.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})%></td>
-              </tr>
-              <% } %>
+              
               <tr>
                 <td>Total</td>
                 <td id="total"><%=order.total.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})%></td>
@@ -78,12 +72,7 @@
                 <td>Taxa de Entrega</td>
                 <td id='delivery_fee'><%=client.delivery_fee.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})%></td>
               </tr>
-              <%if(order.money != '0.0') { %>
-              <tr>
-                <td>Troco</td>
-                <td id="rest"><%=(order.money - order.total - client.delivery_fee).toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})%></td>
-              </tr>
-              <% } %>
+              
               <tr>
                 <td>Logradouro</td>
                 <td id="publicPlace"><%=order.street%></td>
@@ -102,174 +91,9 @@
 
           <div class="card-footer">
             <div class="row">
-              <% if(order.status == 0) { %>
               <div class="col-sm-3 d-none d-md-block">
-                <button class="form-control btn btn-info"
-                onclick="Helper.printData('deliveryAddres', 'Endereço de Entrega');">
-                  Imprimir Para Entregador</button>
-              </div>
-              <% if(order.sendedToDelivery==0) { %>
-              <div class="col-sm-3">
-                <button class="form-control btn btn-info"
-                onclick="Deliveryman.sendToDeliveryman('<%=order.id%>');">
-                  Enviar Para Entregador</button>
-              </div>
-              <% } else { %>
-                <div class="col-sm-3">
-                  <button class="form-control btn btn-primary"
-                  onclick="Deliveryman.reviewDelivery('<%=order.id%>');"
-                  title="Você pode cancelar ou trocar de entregador">
-                    Revisar Entrega</button>
-                </div>
-              <% } %>
-              <div class="col-sm-3">
-                <button class="form-control btn btn-warning"
-                title="Marcar como encerrado"
-                onclick="Order.markAsFuldilled('<%=order.id%>');">
-                  Encerrar</button>
-              </div>
-              <% } %>
-            </div>
-          </div>
-
-        </div>
-
-      </div> <!--End Tab-->
-
-      <div class="tab-pane container fade" id="menu1">
-
-        <div class="card">
-
-          <div class="card-header">
-            <div class="text-center">
-              <h4>Código do Cliente: <%=client.id%></h4>
-            </div>
-          </div>
-
-          <div class="card-body">
-
-            <table class="table table-bordered table-hover">
-              <tr>
-                <td>Nome</td>
-                <td><%=client.name%></td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td><%=client.email%></td>
-              </tr>
-              <tr>
-                <td>Telefone</td>
-                <td>
-                  <%=client.phone%>
-                </td>
-              </tr>
-              <tr>
-                <td>Rua</td>
-                <td><%=client.street%></td>
-              </tr>
-              <tr>
-                <td>Número</td>
-                <td><%=client._number%></td>
-              </tr>
-              <tr>
-                <td>Bairro</td>
-                <td><%=client.neighborhood%></td>
-              </tr>
-              <tr>
-                <td>Complemento</td>
-                <td><%=client.complement%></td>
-              </tr>
-
-            </table>
-
-          </div>
-
-          <div class="card-footer">
-            <div class="row">
-              <!-- <div class="col-sm-3">
                 <button class="form-control btn btn-info">
-                  Imprimir</button>
-              </div> -->
-              <div class="col-sm-3">
-                <button class="form-control btn btn-wapp-color"
-                  title="Mensagem Via WhatsApp"
-                  onclick="return document.location.href='/send-wapp-message?clientName=<%=client.name%>&clientPhone=<%=client.phone%>'">
-                   Mensagem
-                </button>
-              </div>
-            </div>
-
-
-          </div>
-        </div>
-
-      </div> <!--End Tab-->
-
-      <div class="tab-pane container fade" id="menu2">
-
-        <div class="card">
-
-          <div class="card-header">
-            <div class="text-center">
-              <h4>Ítens do Pedido</h4>
-            </div>
-          </div>
-
-          <div class="card-body" style="overflow-y: scroll; height: 300px;">
-
-            <table class="table table-bordered table-hover" id="listPurcheses">
-            <% for(item of items) { %>
-              <tr>
-                <td><strong>Produto</strong></td>
-                <td><strong><%=item.name%></strong></td>
-              </tr>
-              <tr>
-                <td>Código de Barras</td>
-                <td><%=item.barcode%></td>
-              </tr>
-              <tr>
-                <td>Preço Unitário</td>
-                <td>R$ <%=item.price.toFixed(2).toString().replace('.', ',')%></td>
-              </tr>
-              <tr>
-                <td>Quantidade</td>
-                <td><%=item.quantity%></td>
-              </tr>
-              <tr>
-                <td><strong>Subtotal</strong></td>
-                <td>
-                  <strong>
-                    R$ <%=item.subTotal.toFixed(2).toString().replace('.', ',')%>
-                  </strong>
-                </td>
-              </tr>
-              <tr>
-                <td></td>
-              </tr>
-            <% } %>
-
-              <tr>
-                <th><h3>Total R$</h3></th>
-                <td>
-                  <h3>
-                    <strong><%=order.total.toFixed(2).toString().replace('.', ',')%></strong>
-                  </h3>
-                </td>
-              </tr>
-            </table>
-
-            <!-- <div class="card-body">
-              Lista de compras
-            </div> -->
-
-          </div>
-
-          <div class="card-footer">
-            <div class="row">
-              <div class="col-sm-3 d-none d-md-block">
-                <button class="form-control btn btn-info"
-                onclick="Helper.printData('listPurcheses', 'Lista de Compras');">
-                  Imprimir</button>
+                  Tests</button>
               </div>
             </div>
           </div>

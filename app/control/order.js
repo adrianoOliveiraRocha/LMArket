@@ -2,7 +2,6 @@ module.exports.allOrders = function(req, res) {
   const Order = require('./../models/Order');
   Order.getAllOrders(req.session.user.id, function(error, orders) {
     if(error) {
-      console.log(error)
       res.render('admin/error.ejs', {
         errorMessage: "Não foi possível recuperar os pedidos. " + error
       });
@@ -16,7 +15,7 @@ module.exports.allOrders = function(req, res) {
 }
 
 module.exports.fulfilledOrders = function(req, res) {
-  console.log("fulfilledOrders")
+  
   const Order = require('./../models/Order');
   Order.getFulfilledOrders(req.session.user.id, 
     function(error, orders) {
@@ -48,12 +47,7 @@ module.exports.noFulfilledOrders = function(req, res) {
 }
 
 module.exports.orderDetails = function(req, res) {
-  let orderId = req.query.orderId, userId = req.query.userId;
-
-  //config
-  const fs = require('fs');
-  var config = fs.readFileSync('app/public/json/config.json', 'utf8');
-  config = JSON.parse(config);
+  let orderId = req.query.orderId;
 
   const Order = require('./../models/Order');
   const OrderItem = require('./../models/OrderItem');
@@ -62,15 +56,7 @@ module.exports.orderDetails = function(req, res) {
 
   async function getOrder() {
     return new Promise(function(resolve, reject) {
-      Order.getOrderInfo(req.session.user.id, orderId, function(error, result) {
-        error ? reject(error) : resolve(result[0]);
-      });
-    });
-  };
-
-  async function getUserInfos() {
-    return new Promise(function(resolve, reject) {
-      User.getUserInfos(userId, function(error, result) {
+      Order.getOrderInfo(orderId, function(error, result) {
         error ? reject(error) : resolve(result[0]);
       });
     });
@@ -87,19 +73,16 @@ module.exports.orderDetails = function(req, res) {
     });
   }
 
-  Promise.all([getOrder(), getUserInfos(), getItems()])
-    .then(([order, client, items]) => {
-      console.log(order);
-      console.log(client);
-      console.log(items);
-      
-      res.json({order, client, items});
-      
-      // res.render('admin/order-details.ejs', {
-      //   order, client, items, config
-      // });
+  Promise.all([getOrder(), getItems()])
+    .then(([order, items]) => {
+      console.log("Order")
+      console.log(order)
+      console.log("items");
+      console.log(items)
+      res.render('admin/order-details.ejs', {order, items});      
     })
     .catch(error => {
+      console.log(error);
       res.render('admin/error.ejs', {
         errorMessage: "Não foi possível recuperar o pedido. " + error
       });

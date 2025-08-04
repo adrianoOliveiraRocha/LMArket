@@ -1,6 +1,18 @@
-* Erro ao clicar em um pedido: 
-    Erro! Não foi possível recuperar o pedido. 
-    Error: ER_BAD_FIELD_ERROR: Unknown column '_order.money' in 'field list'
+* Items is empty 
+Solution. 
+It's ok. But some of the orders does not has items
+1 - show the complete innformtion about order normale
+2 - Define a button to delete a order. If the order does'nt has items 
+    delete that
+sql:
+	select order_item.id as oi_id, product.id as p_id, 
+	product.name as name, product.barcode as barcode, 
+	product.description as description, 
+	order_item.price, order_item.quantity, order_item.subTotal 
+	from _order, product, order_item
+	where order_item.product = product.id
+	and order_item._order = _order.id 
+	and _order.id = 14;
 
 1 - Do it multuser
 2 - Do Delivery point to whatsapp only

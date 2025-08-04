@@ -28,7 +28,6 @@ const OrderItem = {
     where order_item.product = product.id
     and order_item._order = _order.id 
     and _order.id = ${orderId};`;
-    
     this.connect.query(query, callback);
   },    
 }

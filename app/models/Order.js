@@ -56,16 +56,18 @@ const Order = {
   },
 
   getById(id, callback) {
-    let query = `select _order._datetime, _order.money, _order.creditcard, 
-    _order.total, _order.status, neighborhood.delivery_fee from _order, neighborhood 
+    let query = `select _order._datetime, _order.total, 
+    _order.status, neighborhood.delivery_fee from _order, neighborhood 
     where _order.neighborhood = neighborhood.id and _order.id = ${id}`;
     this.connect.query(query, callback); 
   },
 
-  getOrderInfo(userId, orderId, callback) {
-    let query = `select _order.id, _order._datetime, _order.user, _order.total, 
-    _order.money, _order.creditcard, _order.status, _order.street, _order._number, 
-    neighborhood.name as neighborhood, _order.sendedToDelivery 
+  getOrderInfo(orderId, callback) {
+    let query = `select _order.id, _order._datetime, _order.total, 
+    _order.changeForHowMuch, _order.status, _order.street, 
+    _order._number, _order.neighborhood, _order.clientName,
+    _order.clientPhone, _order.referencePoint, _order.paymentMethod,
+    neighborhood.name, neighborhood.delivery_fee
     from _order, neighborhood where _order.id = ${orderId} 
     and _order.neighborhood = neighborhood.id`;
     this.connect.query(query, callback); 
