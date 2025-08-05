@@ -73,13 +73,25 @@ module.exports.orderDetails = function(req, res) {
     });
   }
 
-  Promise.all([getOrder(), getItems()])
-    .then(([order, items]) => {
+  async function getConfig() {
+    return new Promise((resolve, reject) => {
+      const Config = require('./../models/Config');
+      Config.get(reject.session.usrId, (error, config) => {
+        if(error) reject(error);
+        else {
+          resolve(config);
+        }
+      })
+    })
+  }
+
+  Promise.all([getOrder(), getItems(), getConfig()])
+    .then(([order, items, config]) => {
       console.log("Order")
       console.log(order)
       console.log("items");
       console.log(items)
-      res.render('admin/order-details.ejs', {order, items});      
+      res.render('admin/order-details.ejs', {order, items, config});      
     })
     .catch(error => {
       console.log(error);
