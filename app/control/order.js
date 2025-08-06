@@ -74,9 +74,10 @@ module.exports.orderDetails = function(req, res) {
   }
 
   async function getConfig() {
+    console.log(req.session)
     return new Promise((resolve, reject) => {
       const Config = require('./../models/Config');
-      Config.get(reject.session.usrId, (error, config) => {
+      Config.get(req.session.user.id, (error, config) => {
         if(error) reject(error);
         else {
           resolve(config);
@@ -91,7 +92,7 @@ module.exports.orderDetails = function(req, res) {
       console.log(order)
       console.log("items");
       console.log(items)
-      res.render('admin/order-details.ejs', {order, items, config});      
+      res.render('admin/order-details.ejs', {order, items, config, Order});      
     })
     .catch(error => {
       console.log(error);

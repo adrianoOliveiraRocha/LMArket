@@ -65,12 +65,29 @@ const Order = {
   getOrderInfo(orderId, callback) {
     let query = `select _order.id, _order._datetime, _order.total, 
     _order.changeForHowMuch, _order.status, _order.street, 
-    _order._number, _order.neighborhood, _order.clientName,
+    _order._number, neighborhood.name as neighborhood, _order.clientName,
     _order.clientPhone, _order.referencePoint, _order.paymentMethod,
     neighborhood.name, neighborhood.delivery_fee
     from _order, neighborhood where _order.id = ${orderId} 
     and _order.neighborhood = neighborhood.id`;
     this.connect.query(query, callback); 
+  },
+
+  fixPaymentMethod(str) {
+    switch (str) {
+      case 'creditCard':
+        return "Cartão de Crédito";
+        break;
+      case 'debitCard':
+        return "Cartão de Débito";
+        break;
+      case 'payedMarket':
+        return "Mercado Pago";
+        break;
+      default:
+        return "Não identificado";
+        break;
+    }
   },
 
   markAsFuldilled(id, callback) {

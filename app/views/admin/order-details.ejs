@@ -5,11 +5,11 @@
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs">
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#home">Pedido</a>
-      </li>
+      </li> -->
       <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#menu1">Cliente</a>
+        <a class="nav-link active" data-toggle="tab" href="#menu1">Pedido</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#menu2">Ítems</a>
@@ -20,7 +20,7 @@
     <!-- Tab panes -->
     <div class="tab-content">
 
-      <div class="tab-pane container active" id="home">
+      <div class="tab-pane container active" id="menu1">
 
         <div class="card">
 
@@ -57,11 +57,13 @@
               </tr>
               <tr>
                 <td>Cliente</td>
-                <td id="clientName"><%=order.clienteName%></td>
+                <td id="clientName"><%=order.clientName%></td>
               </tr> 
               <tr>
                 <td>Método de Pagamento</td>
-                <td id="paymentMethod"><%=order.paymentMethod%></td>
+                <%if(order.paymentMethod != 'money') {%>
+                  <td id="paymentMethod"><%=Order.fixPaymentMethod(order.paymentMethod)%></td>
+                <% } %>
               </tr>    
               
               <tr>
@@ -70,7 +72,7 @@
               </tr>
               <tr>
                 <td>Taxa de Entrega</td>
-                <td id='delivery_fee'><%=client.delivery_fee.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})%></td>
+                <td id='delivery_fee'><%=order.delivery_fee.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})%></td>
               </tr>
               
               <tr>
@@ -101,6 +103,8 @@
         </div>
 
       </div> <!--End Tab-->
+
+      <div class="tab-pane container" id="menu2">Menu 2</div>
 
     </div>
 
