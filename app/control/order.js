@@ -88,10 +88,22 @@ module.exports.orderDetails = function(req, res) {
 
   Promise.all([getOrder(), getItems(), getConfig()])
     .then(([order, items, config]) => {
-      console.log("Order")
-      console.log(order)
-      console.log("items");
-      console.log(items)
+      /*
+      RowDataPacket {
+        oi_id: 110,
+        p_id: 5,
+        name: 'Milho Verde em Conserva Quero Lata 200g',
+        barcode: '4789852145652',
+        description: ' Milho verde e salmoura (água e sal) e estabilizante cloreto de cálcio. ',
+        price: 4.56,
+        quantity: 1,
+        subTotal: 4.56
+      }
+
+      */
+      for(let item of items) {
+        console.log(item);
+      }
       res.render('admin/order-details.ejs', {order, items, config, Order});      
     })
     .catch(error => {

@@ -104,7 +104,46 @@
 
       </div> <!--End Tab-->
 
-      <div class="tab-pane container" id="menu2">Menu 2</div>
+      <div class="tab-pane container" id="menu2">
+
+        <div class="card">
+
+          <div class="card-header">
+            <div class="text-center">
+              <h4>Itens do Pedido</h4>
+            </div>
+          </div>
+
+          <div class="card-body">
+            
+            <% for(let item of items) {%>
+              <table class="table table-bordered table-hover">
+                <input type="hidden" id="oi_id" value="<%=item.oi_id%>">
+                <tr>
+                  <td>Código do Produto</td>
+                  <td>
+                    <input type="text" readonly id="<%=item.oi_id%>" 
+                      value="<%=item.p_id%>">                      
+                  </td>
+                </tr>
+                
+              </table>              
+            <% } %>
+            
+          </div>
+
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-sm-3 d-none d-md-block">
+                <button class="form-control btn btn-info">
+                  Tests</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
