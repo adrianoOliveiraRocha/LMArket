@@ -90,16 +90,7 @@
             </table>
 
           </div>
-
-          <div class="card-footer">
-            <div class="row">
-              <div class="col-sm-3 d-none d-md-block">
-                <button class="form-control btn btn-info">
-                  Tests</button>
-              </div>
-            </div>
-          </div>
-
+          
         </div>
 
       </div> <!--End Tab-->
@@ -117,32 +108,71 @@
           <div class="card-body">
             
             <% for(let item of items) {%>
-              <table class="table table-bordered table-hover">
-                <input type="hidden" id="oi_id" value="<%=item.oi_id%>">
-                <tr>
-                  <td>Código do Produto</td>
-                  <td>
-                    <input type="text" readonly id="<%=item.oi_id%>" 
-                      value="<%=item.p_id%>">                      
-                  </td>
-                </tr>
-                
-              </table>              
+              <div class="container">
+                <p class="h5"><%=item.name%></p>
+                <table class="table table-bordered table-hover">
+                  <!--order id that is a reference for all fields-->
+                  <input type="hidden" id="oi_id" value="<%=item.oi_id%>">
+                  <tr>
+                    <td>Código do Produto</td>
+                    <td>
+                      <input type="text" class="form-control" 
+                        readonly id="<%=item.oi_id%>_cod" 
+                        value="<%=item.p_id%>">                      
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td>Preço</td>
+                    <td>
+                      <input type="text" class="form-control" 
+                        readonly id="<%=item.oi_id%>_price" 
+                        value="<%=item.price.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})%>">                      
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Quantidade</td>
+                    <td>
+                      <input type="text" class="form-control" 
+                        readonly id="<%=item.oi_id%>_quantity" 
+                        value="<%=item.quantity%>">                      
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Sub Total</td>
+                    <td>
+                      <input type="text" class="form-control" 
+                        readonly id="<%=item.oi_id%>_price" 
+                        value="<%=item.subTotal.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})%>">                      
+                    </td>
+                  </tr>
+                  
+                </table> 
+              </div>  
+              <hr>           
             <% } %>
             
           </div>
 
-          <div class="card-footer">
+        </div>
+
+      </div>
+
+      <div class="container">
+        <div class="card-footer">
             <div class="row">
-              <div class="col-sm-3 d-none d-md-block">
+              <div class="col-sm-3">
                 <button class="form-control btn btn-info">
-                  Tests</button>
+                  Atendido</button>
+              </div>
+              <div class="col-sm-3">
+                <button class="form-control btn btn-danger">
+                  Deletar</button>
               </div>
             </div>
           </div>
-
-        </div>
-
       </div>
 
     </div>
