@@ -12,6 +12,8 @@ Look for "IPv4 Address" under your WiFi adapter (usually starts with 192.168.x.x
 ```bash
 ifconfig | grep "inet " | grep -v 127.0.0.1
 ```
+result: inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        inet 192.168.18.10  netmask 255.255.255.0  broadcast 192.168.18.255
 or
 ```bash
 ip addr show | grep "inet " | grep -v 127.0.0.1

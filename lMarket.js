@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser')
 // // const nocache = require('nocache');
 const fs = require('fs')
 
-const app = express()
+const app = express();
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -78,8 +78,12 @@ function useLocalHost(localEnv) {
   require('./app/routs/banner')(app);
   require('./app/routs/order.js')(app);
 
-  httpServer.listen(port, () => {
-    console.log('running on port in my localhost on port ' + port)
+  // httpServer.listen(port, () => {
+  //   console.log('running on port in my localhost on port ' + port)
+  // })
+  httpServer.listen(port, '0.0.0.0', () => {
+    console.log(`Server running on http://0.0.0.0:${port}`);
+    console.log(`Access from phone: http://192.168.18.10:${port}`);
   }) 
 }
 
